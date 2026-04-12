@@ -2,10 +2,13 @@ import http from "http";
 import app from "./app";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+import connectDB from "./config/db";
 
 dotenv.config();
 
 const server = http.createServer(app);
+
+const PORT = process.env.PORT || 8000
 
 // Optional (Socket.IO setup)
 const io = new Server(server, {
@@ -26,7 +29,8 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 8000
+// connect db
+connectDB();
 
 server.listen(PORT, () => {
   console.log(` Server is running on http://localhost:${PORT}`);
