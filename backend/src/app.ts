@@ -12,11 +12,11 @@ app.use(cookieParser());
 
 // auth
 app.use("api/auth", authRoutes);
-// user
+// user // protected routes
 app.use("api/user", userRoutes)
 
 app.get("/", (req, res) => {
-  res.send("Backend is working");
+  res.send("Backend is working perfectly");
 });
 
 export default app;
