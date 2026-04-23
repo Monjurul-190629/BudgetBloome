@@ -1,6 +1,6 @@
 import { ANY } from "@/features/common/common.types";
-import { Input } from "../ui/input";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Input } from "../../ui/input";
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
 
 interface props {
   label?: string;
