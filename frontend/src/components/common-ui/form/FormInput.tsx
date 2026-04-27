@@ -1,6 +1,13 @@
 import { ANY } from "@/features/common/common.types";
 import { Input } from "../../ui/input";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../ui/form";
 
 interface props {
   label?: string;
@@ -52,7 +59,7 @@ const FormInput = ({
             {label && (
               <div className="flex items-center justify-start gap-1">
                 <FormLabel
-                  className={`flex items-center gap-1 ${labelTextSize} font-semibold shrink-0`}
+                  className={`text-gray-600 flex items-center gap-1 ${labelTextSize} font-semibold shrink-0`}
                 >
                   {labelIcon && labelIcon}
                   <p className="flex items-start gap-1">
