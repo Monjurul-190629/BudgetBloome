@@ -16,6 +16,7 @@ const RegistrationForm = () => {
 
   const form = useForm<REGISTRATION>({
     resolver: zodResolver(registrationSchema) as any,
+    mode: "onTouched",
     defaultValues: {
       name: "",
       email: "",
@@ -28,7 +29,6 @@ const RegistrationForm = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreview(imageUrl);
@@ -41,25 +41,28 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 bg-white shadow-xl rounded-2xl overflow-hidden">
-        {/* Left Side - Image */}
-        <div className="hidden md:flex items-center justify-center p-6">
-          <div className="relative w-full h-full">
-            <Image
-              src={authLogo}
-              alt="authLogo"
-              className="rounded-xl object-cover w-full h-full"
-            />
+    <div className="min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 py-3">
+      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-xl rounded-2xl overflow-hidden">
+        {/* Left Side - Image (visible on md+) */}
+        <div className="relative w-full h-48 sm:h-64 lg:h-auto">
+          <Image
+            src={authLogo}
+            alt="authLogo"
+            className="object-cover w-full h-full"
+          />
 
-            {/* Green Overlay */}
-            <div className="absolute inset-0 bg-green-600/40 rounded-xl" />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-green-800/70 to-green-400/20" />
+
+          {/* Optional text */}
+          <div className="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-xl lg:text-2xl font-semibold px-4 text-center">
+            Join Us & Start Your Journey 🚀
           </div>
         </div>
 
         {/* Right Side - Form */}
-        <div className="p-8 flex flex-col justify-center">
-          <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+        <div className="p-4 sm:p-6 md:p-8 flex flex-col justify-center">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-5">
             Create Account
           </h2>
 
@@ -71,10 +74,10 @@ const RegistrationForm = () => {
                   <img
                     src={preview}
                     alt="Preview"
-                    className="w-24 h-24 rounded-full object-cover border"
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border"
                   />
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500">
                     No Image
                   </div>
                 )}
@@ -89,29 +92,31 @@ const RegistrationForm = () => {
 
                 <label
                   htmlFor="file-upload"
-                  className="flex items-center gap-2 cursor-pointer border px-4 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-100 transition"
+                  className="flex items-center gap-2 cursor-pointer border px-3 py-1.5 rounded-md text-xs sm:text-sm text-gray-600 hover:bg-gray-100 transition"
                 >
-                  <Upload size={16} />
+                  <Upload size={14} />
                   Upload Image
                 </label>
               </div>
 
-              {/* Inputs */}
-              <FormInput
-                name="name"
-                form={form}
-                label="Full Name"
-                placeholder="Enter your full name"
-                isRequired
-              />
+              {/* Inputs (responsive grid) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormInput
+                  name="name"
+                  form={form}
+                  label="Full Name"
+                  placeholder="Enter your name"
+                  isRequired
+                />
 
-              <FormInput
-                name="email"
-                form={form}
-                label="Email"
-                placeholder="Enter your email"
-                isRequired
-              />
+                <FormInput
+                  name="email"
+                  form={form}
+                  label="Email"
+                  placeholder="Enter your email"
+                  isRequired
+                />
+              </div>
 
               <FormInput
                 name="address"
@@ -128,23 +133,25 @@ const RegistrationForm = () => {
                 placeholder="Enter your phone"
               />
 
-              <FormInput
-                name="password"
-                form={form}
-                label="Password"
-                type="password"
-                placeholder="Enter password"
-                isRequired
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormInput
+                  name="password"
+                  form={form}
+                  label="Password"
+                  type="password"
+                  placeholder="Enter password"
+                  isRequired
+                />
 
-              <FormInput
-                name="confirmPassword"
-                form={form}
-                label="Confirm Password"
-                type="password"
-                placeholder="Confirm password"
-                isRequired
-              />
+                <FormInput
+                  name="confirmPassword"
+                  form={form}
+                  label="Confirm Password"
+                  type="password"
+                  placeholder="Confirm password"
+                  isRequired
+                />
+              </div>
 
               {/* Submit */}
               <button
