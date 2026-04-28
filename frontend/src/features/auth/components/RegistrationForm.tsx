@@ -10,6 +10,8 @@ import { REGISTRATION } from "../types/auth.types";
 import authLogo from "@/assets/image/desert1.jpg";
 import Image from "next/image";
 import { Upload } from "lucide-react";
+import Link from "next/link";
+import { socialLinks } from "./SocialLinks";
 
 const RegistrationForm = () => {
   const [preview, setPreview] = useState<string>("");
@@ -43,28 +45,55 @@ const RegistrationForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 py-3">
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-xl rounded-2xl overflow-hidden">
-        {/* Left Side - Image (visible on md+) */}
-        <div className="relative w-full h-48 sm:h-64 lg:h-auto">
+        <div className="relative w-full h-64 sm:h-72 lg:h-80">
           <Image
             src={authLogo}
             alt="authLogo"
             className="object-cover w-full h-full"
           />
+          {/* image overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-green-800/70 to-green-400/20 z-0" />
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-green-800/70 to-green-400/20" />
+          <div className="absolute top-4 left-4 right-4 z-10 flex flex-col items-start gap-3 text-white">
+            <div className="w-8 h-8 bg-white text-green-600 rounded-full flex items-center justify-center font-bold">
+              B
+            </div>
+            <span className="text-sm sm:text-base font-semibold">
+              Welcome to BudgetBloom
+            </span>
+          </div>
 
-          {/* Optional text */}
-          <div className="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-xl lg:text-2xl font-semibold px-4 text-center">
-            Join Us & Start Your Journey 🚀
+          <div className="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-xl lg:text-2xl font-semibold px-4 text-center z-10">
+            Join Us & Track Your Expense
+          </div>
+
+          <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4 text-white text-xs sm:text-sm">
+            <div className="flex items-center gap-3">
+              {socialLinks.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={i}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon size={16} className="hover:scale-110 transition" />
+                  </Link>
+                );
+              })}
+            </div>
+            <Link href="/privacy-policy" className="hover:text-gray-200">
+              Privacy Policy
+            </Link>
+            <Link href="/privacy-policy" className="hover:text-gray-200">
+              Terms & Condition
+            </Link>
           </div>
         </div>
-
-        {/* Right Side - Form */}
         <div className="p-4 sm:p-6 md:p-8 flex flex-col justify-center">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {/* Image Upload */}
               <div className="flex flex-col items-start gap-2">
                 {preview ? (
                   <img
@@ -73,7 +102,7 @@ const RegistrationForm = () => {
                     className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border"
                   />
                 ) : (
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500">
+                  <div className="w-20 h-20 border-1 shadow-sm sm:w-24 sm:h-24 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500">
                     No Image
                   </div>
                 )}
@@ -95,7 +124,6 @@ const RegistrationForm = () => {
                 </label>
               </div>
 
-              {/* Inputs (responsive grid) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormInput
                   name="name"
@@ -149,13 +177,41 @@ const RegistrationForm = () => {
                 />
               </div>
 
-              {/* Submit */}
+              <div className="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  className="mt-1 cursor-pointer"
+                  required
+                />
+                <label
+                  htmlFor="terms"
+                  className="text-xs sm:text-sm text-gray-600"
+                >
+                  I agree to the{" "}
+                  <span className="text-green-600 cursor-pointer">
+                    Privacy Policy
+                  </span>{" "}
+                  and{" "}
+                  <span className="text-green-600 cursor-pointer">
+                    User Agreement
+                  </span>
+                </label>
+              </div>
+
               <button
                 type="submit"
                 className="w-full bg-green-600 text-white py-2.5 rounded-md hover:bg-green-700 transition font-medium"
               >
                 Sign Up
               </button>
+
+              <p className="text-center text-xs sm:text-sm text-gray-600">
+                Already have an account?{" "}
+                <Link href="/login" className="text-green-600 hover:underline">
+                  Sign In
+                </Link>
+              </p>
             </form>
           </Form>
         </div>
