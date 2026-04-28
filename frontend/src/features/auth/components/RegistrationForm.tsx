@@ -62,14 +62,10 @@ const RegistrationForm = () => {
 
         {/* Right Side - Form */}
         <div className="p-4 sm:p-6 md:p-8 flex flex-col justify-center">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-5">
-            Create Account
-          </h2>
-
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* Image Upload */}
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-start gap-2">
                 {preview ? (
                   <img
                     src={preview}
