@@ -1,7 +1,9 @@
 import { z } from "zod";
-import { registrationSchema } from "../schema/auth.schema";
+import { loginSchema, registrationSchema } from "../schema/auth.schema";
 
 export type REGISTRATION = z.infer<typeof registrationSchema>;
+
+export type LOGIN = z.infer<typeof loginSchema>;
 
 export type REGISTRATION_PAYLOAD = {
   name: string;
