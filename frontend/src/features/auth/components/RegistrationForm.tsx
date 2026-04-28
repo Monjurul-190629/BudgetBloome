@@ -13,10 +13,10 @@ import { BarChart3, TrendingUp, Upload, Wallet } from "lucide-react";
 import Link from "next/link";
 import { socialLinks } from "./SocialLinks";
 import { toast } from "sonner";
-import { uploadToCloudinary } from "@/lib/handyFunction";
+import { uploadToCloudinary } from "@/lib/utils/handyFunction";
 import { useMutation } from "@tanstack/react-query";
 import { userRegistration } from "../api/auth.api";
-import { useAuth } from "@/store/auth.store";
+import { useAuth } from "@/features/auth/store/auth.store";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
@@ -56,14 +56,14 @@ const RegistrationForm = () => {
 
     onSuccess: (response) => {
       const { message, data } = response?.data || {};
-      const token = data?.jwt_token;
+      const token = data?.token;
 
       if (token) {
         setToken(token);
         router.push("/");
       }
 
-      toast.success(message || "Success");
+      toast.success(message || "user registered successfully");
     },
 
     onError: (error: AxiosError<any>) => {
@@ -175,7 +175,7 @@ const RegistrationForm = () => {
 
                 <label
                   htmlFor="file-upload"
-                  className="flex items-center gap-2 cursor-pointer border px-3 py-1.5 rounded-md text-xs sm:text-sm text-gray-600 hover:bg-gray-100 transition"
+                  className="flex items-center gap-2 cursor-pointer border px-3 py-1.5 rounded-md text-xs sm:text-sm text-green-600 hover:bg-gray-100 transition"
                 >
                   <Upload size={14} />
                   Upload Image

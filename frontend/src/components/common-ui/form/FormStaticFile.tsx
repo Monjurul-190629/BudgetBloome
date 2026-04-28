@@ -12,8 +12,8 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { ANY } from "@/features/common/common.types";
-import { Capitalize } from "@/lib/handyFunction";
+import { ANY } from "@/shared/common.types";
+import { Capitalize } from "@/lib/utils/handyFunction";
 import type { UseFormReturn } from "react-hook-form";
 
 interface props {

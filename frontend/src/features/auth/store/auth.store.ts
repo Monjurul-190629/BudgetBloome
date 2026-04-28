@@ -1,4 +1,4 @@
-import { PROFILE } from "@/features/common/common.types";
+import { PROFILE } from "@/shared/common.types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 

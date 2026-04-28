@@ -1,5 +1,5 @@
-import { Config } from "@/settings";
-import { useAuth } from "@/store/auth.store";
+import { Config } from "@/config/settings";
+import { useAuth } from "@/features/auth/store/auth.store";
 import axios, { AxiosError, type AxiosResponse } from "axios";
 const baseUrl = Config.BACKEND_URL;
 

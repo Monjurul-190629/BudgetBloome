@@ -1,4 +1,4 @@
-import { ANY } from "@/features/common/common.types";
+import { ANY } from "@/shared/common.types";
 import { Input } from "../../ui/input";
 import {
   FormControl,
