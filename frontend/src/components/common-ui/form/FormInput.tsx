@@ -88,12 +88,12 @@ const FormInput = ({
                   onBlur(); // Update touched state in react-hook-form
                 }}
                 // This is where your defaultValue will appear from `useForm`!
-                value={value}
+                value={value ?? ""}
                 name={name}
                 ref={ref}
                 disabled={disabled}
                 type={type}
-                className={`text-[8px] bg-white ${fieldClassName}`}
+                className={`text-xs bg-white ${fieldClassName}`}
                 {...restField} // Includes important props like `onFocus`, etc.
               />
             </FormControl>

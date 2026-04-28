@@ -9,9 +9,12 @@ import { registrationSchema } from "../schema/auth.schema";
 import { REGISTRATION } from "../types/auth.types";
 import authLogo from "@/assets/image/desert1.jpg";
 import Image from "next/image";
-import { Upload } from "lucide-react";
+import { BarChart3, TrendingUp, Upload, Wallet } from "lucide-react";
 import Link from "next/link";
 import { socialLinks } from "./SocialLinks";
+import { toast } from "sonner";
+import { uploadToCloudinary } from "@/lib/handyFunction";
+import { useMutation } from "@tanstack/react-query";
 
 const RegistrationForm = () => {
   const [preview, setPreview] = useState<string>("");
@@ -23,23 +26,28 @@ const RegistrationForm = () => {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
       image: "",
       address: "",
       phone: "",
     },
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setPreview(imageUrl);
-      form.setValue("image", imageUrl);
-    }
+    if (!file) return;
+
+    const previewUrl = URL.createObjectURL(file);
+    setPreview(previewUrl);
+
+    const imageUrl = await uploadToCloudinary(file);
+
+    form.setValue("image", imageUrl);
   };
 
   const onSubmit = (data: REGISTRATION) => {
     console.log("Form Data:", data);
+    toast.success("User Signed in successfully");
   };
 
   return (
@@ -63,11 +71,29 @@ const RegistrationForm = () => {
             </span>
           </div>
 
-          <div className="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-xl lg:text-2xl font-semibold px-4 text-center z-10">
-            Join Us & Track Your Expense
+          <div className="absolute inset-0 flex items-center justify-center z-10 px-6 text-center">
+            <div className="bg-white/10 backdrop-blur-xl  rounded-3xl px-6 py-6 sm:px-8 sm:py-8 shadow-2xl max-w-sm sm:max-w-md">
+              {/* mini highlight badges */}
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
+                <span className="text-[12px] sm:text-xs bg-white/20 px-3 py-1 rounded-full flex items-center gap-1">
+                  <BarChart3 size={20} color="yellow" />
+                  Smart Tracking
+                </span>
+
+                <span className="text-[12px] sm:text-xs bg-white/20 px-3 py-1 rounded-full flex items-center gap-1">
+                  <Wallet size={20} color="yellow" />
+                  Budget Control
+                </span>
+
+                <span className="text-[12px] sm:text-xs bg-white/20 px-3 py-1 rounded-full flex items-center gap-1">
+                  <TrendingUp size={20} color="yellow" />
+                  Insights
+                </span>
+              </div>
+            </div>
           </div>
 
-          <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4 text-white text-xs sm:text-sm">
+          <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-row sm:justify-between items-start sm:items-center gap-4 text-white text-xs sm:text-sm">
             <div className="flex items-center gap-3">
               {socialLinks.map((item, i) => {
                 const Icon = item.icon;
@@ -113,6 +139,7 @@ const RegistrationForm = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                   className="hidden"
+                  value={""}
                 />
 
                 <label
