@@ -14,7 +14,7 @@ app.use(cookieParser());
 // auth
 app.use("/api/auth", authRoutes);
 // user // protected routes
-app.use("api/user", userRoutes)
+app.use("/api/user", userRoutes)
 
 // routes
 app.use(errorHandler);

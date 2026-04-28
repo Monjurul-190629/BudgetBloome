@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../models/user.model";
 
-// extend request type (because we attach req.user in middleware)
 interface AuthRequest extends Request {
   user?: any;
 }
@@ -12,15 +11,13 @@ export class UserController {
    */
   static async getProfile(req: AuthRequest, res: Response) {
     try {
-      return res.status(200).json({
-        success: true,
+      res.status(200).json({
         message: "User profile fetched successfully",
         data: req.user,
       });
-    } catch (error: any) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
+    } catch (err: any) {
+      res.status(500).json({
+        message: err.message,
       });
     }
   }
@@ -43,15 +40,13 @@ export class UserController {
         { new: true }
       ).select("-password");
 
-      return res.status(200).json({
-        success: true,
+      res.status(200).json({
         message: "Profile updated successfully",
         data: updatedUser,
       });
-    } catch (error: any) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
+    } catch (err: any) {
+      res.status(500).json({
+        message: err.message,
       });
     }
   }
@@ -65,14 +60,12 @@ export class UserController {
 
       await User.findByIdAndDelete(userId);
 
-      return res.status(200).json({
-        success: true,
+      res.status(200).json({
         message: "Account deleted successfully",
       });
-    } catch (error: any) {
-      return res.status(500).json({
-        success: false,
-        message: error.message,
+    } catch (err: any) {
+      res.status(500).json({
+        message: err.message,
       });
     }
   }
