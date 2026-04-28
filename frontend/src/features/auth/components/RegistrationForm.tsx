@@ -53,19 +53,19 @@ const RegistrationForm = () => {
 
   const mutation = useMutation({
     mutationFn: userRegistration,
+
     onSuccess: (response) => {
-      if (response?.status === 200) {
-        const {
-          detail,
-          data: { jwt_token },
-        } = response?.data ?? {};
-        if (jwt_token) {
-          setToken(jwt_token);
-          router.push("/");
-        }
-        toast.success(detail);
+      const { message, data } = response?.data || {};
+      const token = data?.jwt_token;
+
+      if (token) {
+        setToken(token);
+        router.push("/");
       }
+
+      toast.success(message || "Success");
     },
+
     onError: (error: AxiosError<any>) => {
       const message =
         error?.response?.data?.message ||
@@ -77,8 +77,8 @@ const RegistrationForm = () => {
   });
 
   const onSubmit = (data: REGISTRATION) => {
-    console.log("Form Data:", data);
-    toast.success("User Signed in successfully");
+    const { confirmPassword, ...payload } = data;
+    mutation?.mutate(payload);
   };
 
   return (
