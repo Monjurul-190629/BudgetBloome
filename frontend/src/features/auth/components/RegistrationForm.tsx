@@ -15,9 +15,15 @@ import { socialLinks } from "./SocialLinks";
 import { toast } from "sonner";
 import { uploadToCloudinary } from "@/lib/handyFunction";
 import { useMutation } from "@tanstack/react-query";
+import { userRegistration } from "../api/auth.api";
+import { useAuth } from "@/store/auth.store";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 const RegistrationForm = () => {
+  const setToken = useAuth((state) => state.setToken);
   const [preview, setPreview] = useState<string>("");
+  const router = useRouter();
 
   const form = useForm<REGISTRATION>({
     resolver: zodResolver(registrationSchema) as any,
@@ -44,6 +50,31 @@ const RegistrationForm = () => {
 
     form.setValue("image", imageUrl);
   };
+
+  const mutation = useMutation({
+    mutationFn: userRegistration,
+    onSuccess: (response) => {
+      if (response?.status === 200) {
+        const {
+          detail,
+          data: { jwt_token },
+        } = response?.data ?? {};
+        if (jwt_token) {
+          setToken(jwt_token);
+          router.push("/");
+        }
+        toast.success(detail);
+      }
+    },
+    onError: (error: AxiosError<any>) => {
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+
+      toast.error(message);
+    },
+  });
 
   const onSubmit = (data: REGISTRATION) => {
     console.log("Form Data:", data);
