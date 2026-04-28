@@ -9,17 +9,19 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <Sidebar />
+    <div className="h-screen w-full flex flex-col gap-4 p-4">
+      {/* Header */}
+      <Header />
 
-      {/* Right Side */}
-      <div className="flex flex-col flex-1">
-        {/* Header */}
-        <Header />
+      {/* Body */}
+      <div className="flex flex-1 gap-4 min-h-0">
+        {/* Sidebar FIXED HEIGHT CONTEXT */}
+        <aside className="flex-shrink-0 h-full px-20">
+          <Sidebar />
+        </aside>
 
-        {/* Page Content */}
-        <main className="p-4 overflow-y-auto">{children}</main>
+        {/* Content */}
+        <main className="flex-1 min-w-0 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

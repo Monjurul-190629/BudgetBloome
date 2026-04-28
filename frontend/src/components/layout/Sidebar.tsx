@@ -13,15 +13,17 @@ const menuItems = [
 
 export default function Sidebar() {
   return (
-    <div className="w-20 flex flex-col items-center py-4 shadow-md">
+    <div className="w-20 m-4 bg-green-600 rounded-full flex flex-col items-center py-8 gap-6">
       {menuItems.map((item, index) => {
         const Icon = item.icon;
+
         return (
           <button
             key={index}
-            className="p-3 my-2 rounded-xl  transition"
+            title={item.label}
+            className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-green-500 transition"
           >
-            <Icon className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+            <Icon className="w-5 h-5 text-white" />
           </button>
         );
       })}
