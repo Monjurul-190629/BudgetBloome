@@ -84,7 +84,7 @@ const RegistrationForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 py-3">
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-xl rounded-2xl overflow-hidden">
-        <div className="relative w-full h-64 sm:h-72 lg:h-80">
+        <div className="relative w-full h-full">
           <Image
             src={authLogo}
             alt="authLogo"
@@ -103,7 +103,7 @@ const RegistrationForm = () => {
           </div>
 
           <div className="absolute inset-0 flex items-center justify-center z-10 px-6 text-center">
-            <div className="bg-white/10 backdrop-blur-xl  rounded-3xl px-6 py-6 sm:px-8 sm:py-8 shadow-2xl max-w-sm sm:max-w-md">
+            <div className="rounded-3xl px-6 py-6 sm:px-8 sm:py-8 max-w-sm sm:max-w-md">
               {/* mini highlight badges */}
               <div className="flex flex-wrap justify-center gap-2 mt-4">
                 <span className="text-[12px] sm:text-xs bg-white/20 px-3 py-1 rounded-full flex items-center gap-1">
