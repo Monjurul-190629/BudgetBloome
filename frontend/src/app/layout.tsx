@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import AuthProvider from "@/providers/AuthProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ReactQueryProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </ReactQueryProvider>
+        <TooltipProvider>
+          <ReactQueryProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </ReactQueryProvider>
+        </TooltipProvider>
         <Toaster position="bottom-right" richColors />
       </body>
     </html>
