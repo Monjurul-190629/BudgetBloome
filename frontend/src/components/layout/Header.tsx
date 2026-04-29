@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Sun, Moon, Search } from "lucide-react";
+import { Bell, Sun, Moon, Search, User2 } from "lucide-react";
 import { useState } from "react";
 
 export default function Header() {
@@ -12,66 +12,40 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex items-center justify-between px-6 py-4">
-      {/* LEFT */}
-      <div className="flex items-center gap-6">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-green-700 flex items-center justify-center">
-            <svg
-              viewBox="0 0 16 16"
-              fill="none"
-              className="w-4 h-4"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="8" cy="8" r="5" stroke="white" strokeWidth="1.5" />
-              <path
-                d="M8 5v3l2 1.5"
-                stroke="white"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
-          <span className="text-[16px] font-semibold text-gray-900 dark:text-white">
-            BudgetBloome
-          </span>
+    <header className="w-full flex items-center justify-between md:px-6 py-2">
+      <div className="flex items-center gap-3 md:gap-6">
+        <div className="w-10 h-10 md:w-[54px] md:h-[54px] bg-green-600 text-white rounded-full text-[16px] md:text-[22px] flex items-center justify-center font-bold">
+          B
         </div>
-
-        {/* Search */}
-        <div className="hidden md:flex items-center gap-2 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg px-3 py-2 w-72">
-          <Search className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center gap-2 border-[1px] border-gray-100 dark:border-gray-700 rounded-full px-3 py-2 w-40 md:w-72">
+          <Search className="w-4 h-4 text-gray-300" />
           <input
             type="text"
-            placeholder="Search transactions…"
-            className="bg-transparent outline-none text-sm text-gray-700 dark:text-gray-200 placeholder:text-gray-400 w-full"
+            placeholder="Search transactions"
+            className="bg-transparent outline-none text-sm placeholder:text-gray-400 w-full"
           />
         </div>
       </div>
 
-      {/* RIGHT */}
-      <div className="flex items-center gap-3">
-        {/* Notifications */}
-        <button className="relative w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-          <Bell className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
-        </button>
-
+      <div className="flex items-center md:gap-1">
         {/* Theme toggle */}
         <button
           onClick={toggleTheme}
-          className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          className="w-10 h-10 flex items-center justify-center rounded-lg transition"
         >
           {dark ? (
-            <Sun className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            <Sun className="w-5 h-5 fill-none text-yellow-500" />
           ) : (
-            <Moon className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            <Sun className="w-5 h-5 fill-yellow-500 text-yellow-500" />
           )}
         </button>
-
+        <button className="relative w-10 h-10 flex items-center justify-center rounded-lg transition">
+          <Bell className="w-5 h-5" />
+          <span className="absolute top-2 right-2 w-1 h-1 bg-red-500 rounded-full" />
+        </button>
         {/* Avatar */}
-        <div className="w-9 h-9 rounded-full bg-green-700 flex items-center justify-center text-white text-xs font-medium cursor-pointer">
-          JD
+        <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center text-white text-xs font-medium cursor-pointer">
+          <User2 className="w-5 h-5" />
         </div>
       </div>
     </header>
