@@ -21,7 +21,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (profileData?.data) {
-      setProfile(profileData.data);
+      setProfile(profileData?.data?.data);
     }
   }, [profileData, setProfile]);
 

@@ -1,11 +1,13 @@
 import { useAuth } from "@/features/auth/store/auth.store";
 import { LogOut, User2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const UserInfo = () => {
+  const router = useRouter();
   const profile = useAuth((state) => state.profile);
-  const logout = useAuth((state) => state.logOut);
+  const logOut = useAuth((state) => state.logOut);
 
-  console.log("Profile Name", profile);
+  console.log("Profile Name", profile?.image);
 
   const initials = profile?.name
     ? profile.name
@@ -16,12 +18,15 @@ const UserInfo = () => {
         .slice(0, 2)
     : "?";
 
+  const handleLogout = () => {
+    logOut();
+    router.push("/");
+  };
+
   return (
-    <div className="w-64 rounded-2xl bg-white shadow-xl border border-gray-100 overflow-hidden">
-      {/* Header banner */}
+    <div className="w-56 rounded-2xl bg-white shadow-xl border border-gray-100 overflow-hidden">
       <div className="h-12 bg-gradient-to-r from-green-700 to-green-500" />
 
-      {/* Avatar */}
       <div className="px-4 pb-4">
         <div className="-mt-6 mb-3">
           {profile?.image ? (
@@ -37,25 +42,20 @@ const UserInfo = () => {
           )}
         </div>
 
-        {/* Name & email */}
         <div className="mb-4">
           <p className="text-gray-900 font-semibold text-sm leading-tight">
             {profile?.name ?? "Unknown User"}
           </p>
           {profile?.email && (
-            <p className="text-gray-400 text-xs mt-0.5 truncate">
+            <p className="text-gray-600 text-xs mt-0.5 truncate">
               {profile.email}
             </p>
           )}
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-100 mb-3" />
-
-        {/* Logout */}
         <button
-          onClick={logout}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors duration-150 text-sm font-medium"
+          onClick={handleLogout}
+          className="w-full cursor-pointer flex items-center gap-2 px-3 pb-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors duration-150 text-sm font-medium"
         >
           <LogOut className="w-4 h-4" />
           Sign out
