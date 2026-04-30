@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./modules/auth/auth.routes";
 import userRoutes from "./modules/user/user.routes"
 import { errorHandler } from "./middlewares/error.middleware";
+import walletRoutes from "./modules/wallet/wallet.routes";
+import transactionRoutes from "./modules/transaction/transaction.routes";
 
 const app = express();
 
@@ -15,6 +17,10 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 // user // protected routes
 app.use("/api/user", userRoutes)
+//  wallet
+app.use("/api/wallets", walletRoutes);
+// transaction
+app.use("/api/transactions", transactionRoutes);
 
 // routes
 app.use(errorHandler);
