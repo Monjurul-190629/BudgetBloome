@@ -26,6 +26,7 @@ function DialogPortal({
 }
 
 function DialogClose({
+  className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
@@ -71,7 +72,7 @@ function DialogContent({
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
             <Button
               variant="ghost"
-              className="absolute top-2 right-2"
+              className="absolute top-2 right-2 hover:text-gray-500"
               size="icon-sm"
             >
               <XIcon />

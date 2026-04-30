@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { walletSchema } from "../schema/wallet.api";
 
-export type WALLET = z.infer<typeof walletSchema>;
+export type MUTATE_WALLET = z.infer<typeof walletSchema>;
+
+export interface WALLET extends MUTATE_WALLET{
+  _id?: string;
+}
 
 export type WALLET_PAYLOAD = {
   wallet_name: string;

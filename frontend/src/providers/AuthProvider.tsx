@@ -4,9 +4,12 @@ import { useEffect } from "react";
 import { getUserProfile } from "@/features/auth/api/profile.api";
 import { useAuth } from "@/features/auth/store/auth.store";
 import useFetchData from "@/hooks/useFetchData";
+import { getTotalBalance } from "@/features/wallet/api/wallet.api";
+import { useBalanceStore } from "@/features/wallet/store/balance.store";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const token = useAuth((state) => state?.token);
+  const setBalance = useBalanceStore((state) => state?.setTotalBalance);
   const setProfile = useAuth((state) => state?.setProfile);
   const logout = useAuth((state) => state?.logOut);
 
@@ -19,9 +22,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     },
   );
 
+  const { data: totalBalanceData } = useFetchData(
+    ["total_balance"],
+    getTotalBalance,
+  );
+
+  const totalBalance = totalBalanceData?.data?.data?.total_balance ?? 0;
+
   useEffect(() => {
     if (profileData?.data) {
       setProfile(profileData?.data?.data);
+      setBalance(totalBalance);
     }
   }, [profileData, setProfile]);
 
