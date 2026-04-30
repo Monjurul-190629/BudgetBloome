@@ -24,9 +24,7 @@ export class WalletService {
   }
 
   static async getAllWallets(userId: string) {
-    const wallets = await Wallet.find({ user: userId }).sort({
-      createdAt: -1,
-    });
+    const wallets = await Wallet.find({ user: userId });
 
     return wallets;
   }
