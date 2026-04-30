@@ -44,39 +44,32 @@ export class TransactionService {
   }
 
   static async getTransactionHistory(userId: string, query: any) {
-    const filter: any = {
-      user: userId,
-    };
+  const page = Number(query.page) || 1;
+  const limit = 5;
+  const skip = (page - 1) * limit;
 
-    if (query.category_name) {
-      filter.category_name = {
-        $regex: query.category_name,
-        $options: "i",
-      };
-    }
+  const transactions = await Transaction.find({
+    user: userId,
+  })
+    .populate("wallet", "wallet_name amount")
+    .sort({ created_date: -1 })
+    .skip(skip)
+    .limit(limit);
 
-    if (query.wallet) {
-      filter.wallet = query.wallet;
-    }
+  const total = await Transaction.countDocuments({
+    user: userId,
+  });
 
-    if (query.start_date || query.end_date) {
-      filter.created_date = {};
-
-      if (query.start_date) {
-        filter.created_date.$gte = new Date(query.start_date);
-      }
-
-      if (query.end_date) {
-        filter.created_date.$lte = new Date(query.end_date);
-      }
-    }
-
-    const transactions = await Transaction.find(filter)
-      .populate("wallet", "wallet_name amount")
-      .sort({ created_date: -1 });
-
-    return transactions;
-  }
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+    data: transactions,
+  };
+}
 
   static async getTotalExpense(userId: string) {
     const result = await Transaction.aggregate([
