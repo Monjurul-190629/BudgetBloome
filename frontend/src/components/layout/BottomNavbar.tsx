@@ -1,36 +1,37 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Home, Wallet, Target, User, LifeBuoy, BarChart3 } from "lucide-react";
-import { useState } from "react";
 
 const menuItems = [
-  { icon: Home, label: "Home" },
-  { icon: Wallet, label: "Wallets" },
-  { icon: Target, label: "Goals" },
-  { icon: BarChart3, label: "Analytics" },
-  { icon: User, label: "Profile" },
-  { icon: LifeBuoy, label: "Support" },
+  { icon: Home, label: "Home", href: "/dashboard" },
+  { icon: Wallet, label: "Wallets", href: "/dashboard/wallets" },
+  { icon: Target, label: "Goals", href: "/dashboard/goals" },
+  { icon: BarChart3, label: "Analytics", href: "/dashboard/analytics" },
+  { icon: User, label: "Profile", href: "/dashboard/profile" },
+  { icon: LifeBuoy, label: "Support", href: "/dashboard/support" },
 ];
 
 export default function BottomNavbar() {
-  const [active, setActive] = useState(0);
+  const pathname = usePathname();
 
   return (
     <nav
-      className="bottom-nav fixed bottom-0 left-0 right-0 z-50 
-                bg-green-600 rounded-t-3xl px-2 pt-2 pb-4 
-                justify-around items-center"
+      className="fixed bottom-0 left-0 right-0 z-50 
+                 bg-green-600 rounded-t-3xl px-2 pt-2 pb-4 
+                 flex justify-around items-center md:hidden"
     >
-      {menuItems.map((item, index) => {
+      {menuItems.map((item) => {
         const Icon = item.icon;
-        const isActive = active === index;
+        const isActive = pathname === item.href;
 
         return (
-          <button
-            key={index}
-            onClick={() => setActive(index)}
+          <Link
+            key={item.href}
+            href={item.href}
             className={`flex flex-col items-center gap-1 px-3 py-2 rounded-2xl transition-all ${
-              isActive ? "bg-white/20" : "bg-transparent hover:bg-white/10"
+              isActive ? "bg-white/20" : "hover:bg-white/10"
             }`}
           >
             <Icon
@@ -45,7 +46,7 @@ export default function BottomNavbar() {
             >
               {item.label}
             </span>
-          </button>
+          </Link>
         );
       })}
     </nav>

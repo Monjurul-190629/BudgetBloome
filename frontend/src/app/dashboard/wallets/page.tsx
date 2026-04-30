@@ -1,10 +1,11 @@
+import DashboardHeader from "@/components/layout/DashboardHeader";
 
 const page = () => {
   return (
     <div>
-        This is wallet page
+      <DashboardHeader title="Wallets" />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

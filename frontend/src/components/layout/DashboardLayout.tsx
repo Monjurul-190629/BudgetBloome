@@ -1,7 +1,7 @@
 "use client";
 
 import BottomNavbar from "./BottomNavbar";
-import Header from "./Header";
+import Header from "./TopNavbar";
 import Sidebar from "./Sidebar";
 
 export default function DashboardLayout({
