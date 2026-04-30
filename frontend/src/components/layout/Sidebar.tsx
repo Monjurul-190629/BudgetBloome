@@ -1,39 +1,40 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Home, Wallet, Target, User, LifeBuoy, BarChart3 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useState } from "react";
 
 const menuItems = [
-  { icon: Home, label: "Home" },
-  { icon: Wallet, label: "Wallets" },
-  { icon: Target, label: "Goals" },
-  { icon: BarChart3, label: "Analytics" },
-  { icon: User, label: "Profile" },
-  { icon: LifeBuoy, label: "Support" },
+  { icon: Home, label: "Home", href: "/dashboard" },
+  { icon: Wallet, label: "Wallets", href: "/dashboard/wallets" },
+  { icon: Target, label: "Goals", href: "/dashboard/goals" },
+  { icon: BarChart3, label: "Analytics", href: "/dashboard/analytics" },
+  { icon: User, label: "Profile", href: "/dashboard/profile" },
+  { icon: LifeBuoy, label: "Support", href: "/dashboard/support" },
 ];
 
 export default function Sidebar() {
-  const [active, setActive] = useState(0);
+  const pathname = usePathname();
 
   return (
     <div
       style={{ height: "500px", padding: "40px 28px" }}
       className="bg-green-600 rounded-full flex flex-col items-center justify-center gap-4"
     >
-      {menuItems.map((item, index) => {
+      {menuItems.map((item) => {
         const Icon = item.icon;
-        const isActive = active === index;
+        const isActive = pathname === item.href;
 
         return (
-          <Tooltip key={index}>
+          <Tooltip key={item.href}>
             <TooltipTrigger asChild>
-              <button
-                onClick={() => setActive(index)}
+              <Link
+                href={item.href}
                 className={`w-10 h-10 flex items-center justify-center rounded-xl transition
                   ${
                     isActive
@@ -42,7 +43,7 @@ export default function Sidebar() {
                   }`}
               >
                 <Icon className="w-5 h-5" />
-              </button>
+              </Link>
             </TooltipTrigger>
 
             <TooltipContent
