@@ -48,17 +48,54 @@ export class TransactionService {
   const limit = 5;
   const skip = (page - 1) * limit;
 
-  const transactions = await Transaction.find({
+  let fromDate: Date;
+  let toDate: Date;
+
+  if (query.from && query.to) {
+    fromDate = new Date(query.from);
+    toDate = new Date(query.to);
+  } else {
+    const now = new Date();
+
+    fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    toDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  }
+
+  toDate.setHours(23, 59, 59, 999);
+
+  const filter = {
     user: userId,
-  })
+    created_date: {
+      $gte: fromDate,
+      $lte: toDate,
+    },
+  };
+
+  const transactions = await Transaction.find(filter)
     .populate("wallet", "wallet_name amount")
     .sort({ created_date: -1 })
     .skip(skip)
     .limit(limit);
 
-  const total = await Transaction.countDocuments({
-    user: userId,
-  });
+  const total = await Transaction.countDocuments(filter);
+
+  const totalExpenseResult = await Transaction.aggregate([
+    {
+      $match: {
+        user: new mongoose.Types.ObjectId(userId),
+        created_date: {
+          $gte: fromDate,
+          $lte: toDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total_expense: { $sum: "$amount" },
+      },
+    },
+  ]);
 
   return {
     meta: {
@@ -67,6 +104,7 @@ export class TransactionService {
       total,
       totalPages: Math.ceil(total / limit),
     },
+    total_expense: totalExpenseResult[0]?.total_expense || 0,
     data: transactions,
   };
 }
