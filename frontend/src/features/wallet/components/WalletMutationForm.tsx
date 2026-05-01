@@ -46,7 +46,7 @@ const WalletMutationForm = ({
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-4 w-[350px]"
+        className="flex flex-col gap-4 w-[300px] md:w-[350px]"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormInput

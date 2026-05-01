@@ -7,7 +7,7 @@ import { WALLET_RESPONSE } from "@/features/wallet/type/wallet.types";
 export type MUTATE_TRANSACTION = z.infer<typeof transactionSchema>;
 
 export interface TRANSACTION extends MUTATE_TRANSACTION{
-  _id: string;
+  _id?: string;
 }
 
 export type TRANSACTION_PAYLOAD = {

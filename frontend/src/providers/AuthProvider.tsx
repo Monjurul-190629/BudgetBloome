@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { data: profileData, error } = useFetchData(
     ["getUserProfile", token],
     () => getUserProfile({ token: token as string }),
-    {
+    { 
       enabled: !!token,
       queryKey: ["getUserProfile", token],
     },

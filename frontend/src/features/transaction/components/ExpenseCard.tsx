@@ -66,7 +66,7 @@ const ExpenseCard = ({
   const { from, to, label } = getDateRange(type);
 
   const { data: getTransactionsData, isLoading } = useFetchData(
-    ["expense", type, from, to],
+    ["getTransactionHistory", type, from, to],
     () =>
       getTransactionHistory({
         page: 1,
@@ -105,7 +105,7 @@ const ExpenseCard = ({
           </div>
         </div>
 
-        {isHighExpense && (
+        {isHighExpense && type ==="today" && (
           <div className="mt-3 flex items-center gap-2 rounded-xl bg-white/20 p-3 text-sm font-medium">
             <AlertTriangle className="h-4 w-4" />
             <span>Expense is greater than ৳ {warningLimit}</span>
