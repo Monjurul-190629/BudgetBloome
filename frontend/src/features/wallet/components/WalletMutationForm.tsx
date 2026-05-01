@@ -1,12 +1,10 @@
 "use client";
 
 import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon, PlusCircleIcon } from "lucide-react";
 import { useEffect, type Ref } from "react";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import type { WALLET } from "../type/wallet.types";
-import { walletSchema } from "../schema/wallet.api";
 import FormInput from "@/components/common-ui/form/FormInput";
 import IconButton from "@/components/common-ui/button/IconButton";
 

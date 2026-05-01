@@ -21,7 +21,7 @@ const CreateWallet = () => {
       if (response?.status === 201) {
         toast.success(response?.data?.detail || "Wallet created successfully");
         queryClient.invalidateQueries({ queryKey: ["getWallets"] });
-        queryClient.invalidateQueries({ queryKey: ["total_balance"] });
+        queryClient.invalidateQueries({ queryKey: ["getTotalBalance"] });
         formRef.current?.reset();
         setModalOpen(false);
       }

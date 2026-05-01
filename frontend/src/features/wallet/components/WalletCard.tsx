@@ -28,7 +28,7 @@ const WalletCard = () => {
     onSuccess: (response) => {
       toast.success(response?.data?.detail || "Wallet deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["getWallets"] });
-      queryClient.invalidateQueries({ queryKey: ["total_balance"] });
+      queryClient.invalidateQueries({ queryKey: ["getTotalBalance"] });
     },
     onError: (error: AxiosError<any>) => {
       toast.error(

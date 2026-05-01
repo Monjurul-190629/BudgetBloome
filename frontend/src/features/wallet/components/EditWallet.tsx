@@ -25,7 +25,7 @@ const EditWallet = ({ wallet, onSuccess }: Props) => {
       if (response?.status === 200) {
         toast.success(response?.data?.detail || "Wallet updated successfully");
         queryClient.invalidateQueries({ queryKey: ["getWallets"] });
-        queryClient.invalidateQueries({ queryKey: ["total_balance"] });
+        queryClient.invalidateQueries({ queryKey: ["getTotalBalance"] });
         onSuccess();
       }
     },

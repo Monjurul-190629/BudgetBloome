@@ -7,8 +7,23 @@ export const createTransaction = ({
   data: TRANSACTION_PAYLOAD;
 }) => instance.post("/transactions", data);
 
-export const getTransactionHistory = ({ page = 1 }: { page?: number }) =>
-  instance.get(`/transactions?page=${page}`);
+export const getTransactionHistory = ({
+  page = 1,
+  from,
+  to,
+}: {
+  page?: number;
+  from?: string;
+  to?: string;
+}) => {
+  return instance.get("/transactions", {
+    params: {
+      page,
+      from,
+      to,
+    },
+  });
+};
 
 export const getTotalExpense = () => instance.get("/transactions/total-expense");
 

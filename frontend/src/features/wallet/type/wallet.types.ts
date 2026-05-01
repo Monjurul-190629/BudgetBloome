@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { walletSchema } from "../schema/wallet.api";
+import { walletSchema } from "../schema/wallet.schema";
 
 export type MUTATE_WALLET = z.infer<typeof walletSchema>;
 

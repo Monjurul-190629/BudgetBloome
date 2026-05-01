@@ -4,7 +4,11 @@ import { z } from "zod";
 import { transactionSchema } from "../schema/transaction.schema";
 import { WALLET_RESPONSE } from "@/features/wallet/type/wallet.types";
 
-export type TRANSACTION = z.infer<typeof transactionSchema>;
+export type MUTATE_TRANSACTION = z.infer<typeof transactionSchema>;
+
+export interface TRANSACTION extends MUTATE_TRANSACTION{
+  _id: string;
+}
 
 export type TRANSACTION_PAYLOAD = {
   wallet: string;

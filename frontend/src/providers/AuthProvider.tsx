@@ -23,7 +23,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   const { data: totalBalanceData } = useFetchData(
-    ["total_balance"],
+    ["getTotalBalance"],
     getTotalBalance,
   );
 
