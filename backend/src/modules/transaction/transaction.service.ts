@@ -212,4 +212,46 @@ export class TransactionService {
 
     return transaction;
   }
+
+  static async getTotalIncome(userId: string, query: any) {
+  const { from, to } = query;
+
+  if (!from || !to) {
+    throw new AppError("From date and to date are required", 400);
+  }
+
+  const fromDate = new Date(from);
+  const toDate = new Date(to);
+
+  if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+    throw new AppError("Invalid date format", 400);
+  }
+
+  toDate.setHours(23, 59, 59, 999);
+
+  const result = await Transaction.aggregate([
+    {
+      $match: {
+        user: new mongoose.Types.ObjectId(userId),
+        type: "income",
+        created_date: {
+          $gte: fromDate,
+          $lte: toDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total_income: { $sum: "$amount" },
+      },
+    },
+  ]);
+
+  return {
+    from: fromDate,
+    to: toDate,
+    total_income: result[0]?.total_income || 0,
+  };
+}
 }

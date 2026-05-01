@@ -70,4 +70,23 @@ export class TransactionController {
       });
     }
   }
+
+static async getTotalIncome(req: AuthRequest, res: Response) {
+  try {
+    const result = await TransactionService.getTotalIncome(
+      req.user._id,
+      req.query,
+    );
+
+    res.status(200).json({
+      message: "Total income fetched successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(err.statusCode || 400).json({
+      message: err.message,
+    });
+  }
+}
+
 }
