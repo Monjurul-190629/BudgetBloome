@@ -5,7 +5,7 @@ import { getTransactionHistory } from "@/features/transaction/api/transaction.ap
 import useFetchData from "@/hooks/useFetchData";
 import { AlertTriangle, CalendarDays, TrendingDown } from "lucide-react";
 
-type ExpensePeriod = "today" | "weekly" | "this-month" | "last-month";
+type ExpensePeriod = "today" | "weekly" | "this-month" | "last-month" | "total";
 
 interface ExpenseCardProps {
   type: ExpensePeriod;
@@ -18,9 +18,17 @@ const formatDate = (date: Date) => date.toISOString().split("T")[0];
 const getDateRange = (type: ExpensePeriod) => {
   const today = new Date();
 
-  let fromDate: Date;
-  let toDate: Date;
+  let fromDate: Date | null = null;
+  let toDate: Date | null = null;
   let label: string;
+
+  if (type === "total") {
+    return {
+      from: undefined,
+      to: undefined,
+      label: "Total",
+    };
+  }
 
   if (type === "today") {
     fromDate = today;
@@ -52,8 +60,8 @@ const getDateRange = (type: ExpensePeriod) => {
   }
 
   return {
-    from: formatDate(fromDate),
-    to: formatDate(toDate),
+    from: formatDate(fromDate!),
+    to: formatDate(toDate!),
     label,
   };
 };
@@ -105,12 +113,22 @@ const ExpenseCard = ({
           </div>
         </div>
 
-        {isHighExpense && type ==="today" && (
+        {isHighExpense && type === "today" && (
           <div className="mt-3 flex items-center gap-2 rounded-xl bg-white/20 p-3 text-sm font-medium">
             <AlertTriangle className="h-4 w-4" />
             <span>Expense is greater than ৳ {warningLimit}</span>
           </div>
         )}
+
+        <div className="mt-4 flex items-end justify-between">
+          {[8, 16, 17, 20, 14, 6, 18, 20, 24, 24].map((h, i) => (
+            <div
+              key={i}
+              className="w-[10px] bg-white"
+              style={{ height: `${h}px` }}
+            />
+          ))}
+        </div>
       </CardContent>
     </Card>
   );

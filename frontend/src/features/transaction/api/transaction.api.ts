@@ -25,6 +25,21 @@ export const getTransactionHistory = ({
   });
 };
 
+export const getTotalIncome = ({
+  from,
+  to,
+}: {
+  from?: string;
+  to?: string;
+}) => {
+  return instance.get("/total-income", {
+    params: {
+      from,
+      to,
+    },
+  });
+};
+
 export const getTotalExpense = () => instance.get("/transactions/total-expense");
 
 export const deleteTransaction = ({ id }: { id: string }) =>
