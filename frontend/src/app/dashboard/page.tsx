@@ -1,9 +1,11 @@
-
+import TransactionHistoryTable from "@/features/transaction/components/TransactionHistoryTable";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <TransactionHistoryTable />
+    </div>
+  );
+};
 
-export default page
+export default page;
