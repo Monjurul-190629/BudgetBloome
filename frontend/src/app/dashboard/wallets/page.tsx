@@ -20,9 +20,17 @@ const WalletPage = () => {
 
           <BalanceCard title="Saving Balance" type="saving" />
 
-          <ExpenseCard type="this-month" title="This Month Expense" />
+          <ExpenseCard
+            type="this-month"
+            title="This Month Expense"
+            changeDefault
+          />
 
-          <ExpenseCard type="last-month" title="Last Month Expense" />
+          <ExpenseCard
+            type="last-month"
+            title="Last Month Expense"
+            changeDefault
+          />
         </div>
       </div>
     </div>

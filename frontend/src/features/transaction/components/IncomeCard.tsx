@@ -3,20 +3,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getTransactionHistory } from "@/features/transaction/api/transaction.api";
 import useFetchData from "@/hooks/useFetchData";
-import { AlertTriangle, CalendarDays, TrendingDown } from "lucide-react";
+import { CalendarDays, TrendingUp } from "lucide-react";
 
-type ExpensePeriod = "today" | "weekly" | "this-month" | "last-month" | "total";
+type IncomePeriod = "today" | "weekly" | "this-month" | "last-month" | "total";
 
-interface ExpenseCardProps {
-  type: ExpensePeriod;
+interface IncomeCardProps {
+  type: IncomePeriod;
   title?: string;
-  warningLimit?: number;
-  changeDefault?: boolean;
 }
 
 const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
-const getDateRange = (type: ExpensePeriod) => {
+const getDateRange = (type: IncomePeriod) => {
   const today = new Date();
 
   let fromDate: Date | null = null;
@@ -67,12 +65,7 @@ const getDateRange = (type: ExpensePeriod) => {
   };
 };
 
-const ExpenseCard = ({
-  type,
-  title,
-  warningLimit = 1000,
-  changeDefault,
-}: ExpenseCardProps) => {
+const IncomeCard = ({ type, title }: IncomeCardProps) => {
   const { from, to, label } = getDateRange(type);
 
   const { data: getTransactionsData, isLoading } = useFetchData(
@@ -85,33 +78,28 @@ const ExpenseCard = ({
       }),
   );
 
-  const expense = getTransactionsData?.data?.data?.total_expense ?? 0;
-  const isHighExpense = expense > warningLimit;
+  const income = getTransactionsData?.data?.data?.total_income ?? 0;
 
   return (
-    <Card
-      className={`overflow-hidden rounded-2xl bg-black text-white shadow-xl ${changeDefault ? "bg-red-600" : ""}`}
-    >
+    <Card className="overflow-hidden rounded-2xl bg-black text-white shadow-xl">
       <CardHeader className="pb-0">
         <div className="flex items-center justify-between gap-3">
           <CardTitle className="text-xl font-bold opacity-90">
-            {title || `${label} Expense`}
+            {title || `${label} Income`}
           </CardTitle>
 
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/20">
-            <TrendingDown className="h-6 w-6" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
+            <TrendingUp className="h-6 w-6 text-green-400" />
           </div>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-3">
-        <h2
-          className={`text-xl text-red-600 font-bold ${changeDefault ? "text-white" : ""}`}
-        >
-          {isLoading ? "Loading..." : `৳ ${expense}`}
+        <h2 className="text-xl font-bold text-green-400">
+          {isLoading ? "Loading..." : `৳ ${income}`}
         </h2>
 
-        <div className="flex items-center gap-2 text-md opacity-90">
+        <div className="flex items-center gap-2 text-md opacity-80">
           <CalendarDays className="h-4 w-4" />
           <div>
             <p>Period</p>
@@ -119,19 +107,13 @@ const ExpenseCard = ({
           </div>
         </div>
 
-        {isHighExpense && type === "today" && (
-          <div className="mt-3 flex items-center gap-2 rounded-xl bg-white/20 p-3 text-sm font-medium">
-            <AlertTriangle className="h-4 w-4" />
-            <span>Expense is greater than ৳ {warningLimit}</span>
-          </div>
-        )}
-
+        {/* Bottom green bars */}
         <div className="mt-4 flex items-end justify-between">
-          {[6, 20, 24, 18, 12, 20, 16, 24, 22, 14, 8, 18, 20, 12, 16].map(
+          {[6, 10, 14, 18, 12, 20, 16, 24, 22, 14, 8, 18, 20, 12, 16].map(
             (h, i) => (
               <div
                 key={i}
-                className={`w-[10px] bg-red-600 ${changeDefault ? "bg-white" : "bg-red-600"}`}
+                className="w-[10px] bg-green-500"
                 style={{ height: `${h}px` }}
               />
             ),
@@ -142,4 +124,4 @@ const ExpenseCard = ({
   );
 };
 
-export default ExpenseCard;
+export default IncomeCard;
