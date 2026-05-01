@@ -17,6 +17,11 @@ const transactionSchema = new Schema(
       required: true,
       trim: true,
     },
+    type: {
+      type: String,
+      enum: ["income", "expense"],
+      required: true,
+    },
     description: {
       type: String,
       default: "",
@@ -24,13 +29,14 @@ const transactionSchema = new Schema(
     amount: {
       type: Number,
       required: true,
+      min: 1,
     },
     created_date: {
       type: Date,
       default: Date.now,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.model("Transaction", transactionSchema);
