@@ -3,69 +3,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getTransactionHistory } from "@/features/transaction/api/transaction.api";
 import useFetchData from "@/hooks/useFetchData";
+import { getDateRange, type PeriodType } from "@/lib/utils/getDateRange";
 import { AlertTriangle, CalendarDays, TrendingDown } from "lucide-react";
 
-type ExpensePeriod = "today" | "weekly" | "this-month" | "last-month" | "total";
-
 interface ExpenseCardProps {
-  type: ExpensePeriod;
+  type: PeriodType;
   title?: string;
   warningLimit?: number;
   changeDefault?: boolean;
 }
-
-const formatDate = (date: Date) => date.toISOString().split("T")[0];
-
-const getDateRange = (type: ExpensePeriod) => {
-  const today = new Date();
-
-  let fromDate: Date | null = null;
-  let toDate: Date | null = null;
-  let label: string;
-
-  if (type === "total") {
-    return {
-      from: undefined,
-      to: undefined,
-      label: "Total",
-    };
-  }
-
-  if (type === "today") {
-    fromDate = today;
-    toDate = today;
-    label = "Today";
-  } else if (type === "weekly") {
-    const day = today.getDay();
-    const diffToMonday = day === 0 ? 6 : day - 1;
-
-    fromDate = new Date(today);
-    fromDate.setDate(today.getDate() - diffToMonday);
-
-    toDate = today;
-    label = "This Week";
-  } else if (type === "last-month") {
-    fromDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-    toDate = new Date(today.getFullYear(), today.getMonth(), 0);
-
-    label = fromDate.toLocaleString("default", {
-      month: "long",
-    });
-  } else {
-    fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    toDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-    label = today.toLocaleString("default", {
-      month: "long",
-    });
-  }
-
-  return {
-    from: formatDate(fromDate!),
-    to: formatDate(toDate!),
-    label,
-  };
-};
 
 const ExpenseCard = ({
   type,
@@ -76,7 +22,7 @@ const ExpenseCard = ({
   const { from, to, label } = getDateRange(type);
 
   const { data: getTransactionsData, isLoading } = useFetchData(
-    ["getTransactionHistory", type, from, to],
+    ["getTransactionHistory", "expense", type, from, to],
     () =>
       getTransactionHistory({
         page: 1,
@@ -90,7 +36,9 @@ const ExpenseCard = ({
 
   return (
     <Card
-      className={`overflow-hidden rounded-2xl bg-black text-white shadow-xl ${changeDefault ? "bg-red-600" : ""}`}
+      className={`overflow-hidden rounded-2xl bg-black text-white shadow-xl ${
+        changeDefault ? "bg-red-600" : ""
+      }`}
     >
       <CardHeader className="pb-0">
         <div className="flex items-center justify-between gap-3">
@@ -106,7 +54,9 @@ const ExpenseCard = ({
 
       <CardContent className="space-y-3">
         <h2
-          className={`text-xl text-red-600 font-bold ${changeDefault ? "text-white" : ""}`}
+          className={`text-xl font-bold text-red-600 ${
+            changeDefault ? "text-white" : ""
+          }`}
         >
           {isLoading ? "Loading..." : `৳ ${expense}`}
         </h2>
@@ -131,7 +81,9 @@ const ExpenseCard = ({
             (h, i) => (
               <div
                 key={i}
-                className={`w-[10px] bg-red-600 ${changeDefault ? "bg-white" : "bg-red-600"}`}
+                className={`w-[10px] ${
+                  changeDefault ? "bg-white" : "bg-red-600"
+                }`}
                 style={{ height: `${h}px` }}
               />
             ),

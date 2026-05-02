@@ -4,66 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getTransactionHistory } from "@/features/transaction/api/transaction.api";
 import useFetchData from "@/hooks/useFetchData";
 import { CalendarDays, TrendingUp } from "lucide-react";
-
-type IncomePeriod = "today" | "weekly" | "this-month" | "last-month" | "total";
+import { getDateRange, type PeriodType } from "@/lib/utils/getDateRange";
 
 interface IncomeCardProps {
-  type: IncomePeriod;
+  type: PeriodType;
   title?: string;
 }
-
-const formatDate = (date: Date) => date.toISOString().split("T")[0];
-
-const getDateRange = (type: IncomePeriod) => {
-  const today = new Date();
-
-  let fromDate: Date | null = null;
-  let toDate: Date | null = null;
-  let label: string;
-
-  if (type === "total") {
-    return {
-      from: undefined,
-      to: undefined,
-      label: "Total",
-    };
-  }
-
-  if (type === "today") {
-    fromDate = today;
-    toDate = today;
-    label = "Today";
-  } else if (type === "weekly") {
-    const day = today.getDay();
-    const diffToMonday = day === 0 ? 6 : day - 1;
-
-    fromDate = new Date(today);
-    fromDate.setDate(today.getDate() - diffToMonday);
-
-    toDate = today;
-    label = "This Week";
-  } else if (type === "last-month") {
-    fromDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-    toDate = new Date(today.getFullYear(), today.getMonth(), 0);
-
-    label = fromDate.toLocaleString("default", {
-      month: "long",
-    });
-  } else {
-    fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    toDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-    label = today.toLocaleString("default", {
-      month: "long",
-    });
-  }
-
-  return {
-    from: formatDate(fromDate!),
-    to: formatDate(toDate!),
-    label,
-  };
-};
 
 const IncomeCard = ({ type, title }: IncomeCardProps) => {
   const { from, to, label } = getDateRange(type);
