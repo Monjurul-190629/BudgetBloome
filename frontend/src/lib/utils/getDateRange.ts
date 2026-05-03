@@ -5,6 +5,9 @@ export type PeriodType =
   | "last-month"
   | "two-months-ago"
   | "three-months-ago"
+  | "four-months-ago"
+  | "five-months-ago"
+  | "six-months-ago"
   | "total";
 
 const formatDate = (date: Date) => date.toISOString().split("T")[0];
@@ -58,10 +61,18 @@ export const getDateRange = (type: PeriodType) => {
     };
   }
 
-  if (type === "this-month") return getMonthRange(0);
-  if (type === "last-month") return getMonthRange(1);
-  if (type === "two-months-ago") return getMonthRange(2);
-  if (type === "three-months-ago") return getMonthRange(3);
+  const monthOffsetMap: Record<PeriodType, number> = {
+    today: 0,
+    weekly: 0,
+    total: 0,
+    "this-month": 0,
+    "last-month": 1,
+    "two-months-ago": 2,
+    "three-months-ago": 3,
+    "four-months-ago": 4,
+    "five-months-ago": 5,
+    "six-months-ago": 6,
+  };
 
-  return getMonthRange(0);
+  return getMonthRange(monthOffsetMap[type]);
 };
