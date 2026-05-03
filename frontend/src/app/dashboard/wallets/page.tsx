@@ -9,8 +9,8 @@ const WalletPage = () => {
     <div className="flex flex-col gap-6">
       <DashboardHeader title="Wallets" />
 
-      <div className="grid grid-cols-1 gap-5 xl:grid-cols-12 xl:items-start">
-        <div className="flex flex-col xl:col-span-5">
+      <div className="grid grid-cols-1 justify-start gap-5 xl:grid-cols-12 xl:items-start">
+        <div className="flex flex-col xl:col-span-5 2xl:col-span-4">
           <WalletCard />
           <QuickActionCard />
         </div>
