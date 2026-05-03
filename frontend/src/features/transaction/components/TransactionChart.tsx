@@ -12,12 +12,9 @@ import {
 } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { getTransactionHistory } from "@/features/transaction/api/transaction.api";
+import { getDateRange, PeriodType } from "@/lib/utils/getDateRange";
 
-type IncomePeriod =
-  | "this-month"
-  | "last-month"
-  | "two-months-ago"
-  | "three-months-ago";
+type ChartPeriod = Exclude<PeriodType, "today" | "weekly" | "total">;
 
 type TransactionChartType = "income" | "expense" | "both";
 
@@ -25,34 +22,10 @@ interface TransactionChartProps {
   type?: TransactionChartType;
 }
 
-const formatDate = (date: Date) => date.toISOString().split("T")[0];
-
-const getMonthRange = (type: IncomePeriod) => {
-  const today = new Date();
-
-  let monthOffset = 0;
-
-  if (type === "last-month") monthOffset = 1;
-  if (type === "two-months-ago") monthOffset = 2;
-  if (type === "three-months-ago") monthOffset = 3;
-
-  const year = today.getFullYear();
-  const month = today.getMonth() - monthOffset;
-
-  const fromDate = new Date(year, month, 1);
-  const toDate = new Date(year, month + 1, 0);
-
-  return {
-    from: formatDate(fromDate),
-    to: formatDate(toDate),
-    label: fromDate.toLocaleString("default", {
-      month: "short",
-      year: "numeric",
-    }),
-  };
-};
-
-const chartPeriods: IncomePeriod[] = [
+const chartPeriods: ChartPeriod[] = [
+  "six-months-ago",
+  "five-months-ago",
+  "four-months-ago",
   "three-months-ago",
   "two-months-ago",
   "last-month",
@@ -65,7 +38,7 @@ const useTransactionChartData = () => {
     queryFn: async () => {
       const results = await Promise.all(
         chartPeriods.map(async (period) => {
-          const { from, to, label } = getMonthRange(period);
+          const { from, to, label } = getDateRange(period);
 
           const res = await getTransactionHistory({
             page: 1,
@@ -96,7 +69,7 @@ const TransactionChart = ({ type = "both" }: TransactionChartProps) => {
   const { data: chartData = [], isLoading } = useTransactionChartData();
 
   return (
-    <div className="h-[380px] w-full rounded-2xl bg-black p-4 text-white focus:outline-0">
+    <div className="h-[380px] w-full rounded-2xl bg-black p-4 text-white">
       <h2 className="mb-4 text-lg font-semibold">{getTitle(type)}</h2>
 
       {isLoading ? (
@@ -104,13 +77,8 @@ const TransactionChart = ({ type = "both" }: TransactionChartProps) => {
           Loading chart...
         </div>
       ) : (
-        <ResponsiveContainer
-          width="100%"
-          height="90%"
-          className="!outline-none !border-none focus:!outline-none focus:!border-none"
-        >
+        <ResponsiveContainer width="100%" height="90%">
           <LineChart
-            className="outline-none focus:outline-none"
             data={chartData}
             margin={{
               top: 15,
