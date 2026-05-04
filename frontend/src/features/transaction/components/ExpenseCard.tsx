@@ -36,9 +36,7 @@ const ExpenseCard = ({
 
   return (
     <Card
-      className={`overflow-hidden rounded-2xl bg-black text-white shadow-xl ${
-        changeDefault ? "bg-red-600" : ""
-      }`}
+      className={`overflow-hidden rounded-2xl bg-black text-white shadow-xl`}
     >
       <CardHeader className="pb-0">
         <div className="flex items-center justify-between gap-3">
@@ -46,22 +44,18 @@ const ExpenseCard = ({
             {title || `${label} Expense`}
           </CardTitle>
 
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/20">
-            <TrendingDown className="h-6 w-6" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90">
+            <TrendingDown className="h-6 w-6 text-red-600/80 font-semibold" />
           </div>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-3">
-        <h2
-          className={`text-xl font-bold text-red-600 ${
-            changeDefault ? "text-white" : ""
-          }`}
-        >
+        <h2 className={`text-xl font-bold text-red-600 `}>
           {isLoading ? "Loading..." : `৳ ${expense}`}
         </h2>
 
-        <div className="flex items-center gap-2 text-md opacity-90">
+        <div className="flex text-gray-200 items-center gap-2 text-md opacity-90">
           <CalendarDays className="h-4 w-4" />
           <div>
             <p>Period</p>
@@ -81,9 +75,7 @@ const ExpenseCard = ({
             (h, i) => (
               <div
                 key={i}
-                className={`w-[10px] ${
-                  changeDefault ? "bg-white" : "bg-red-600"
-                }`}
+                className={`w-[10px] bg-red-600`}
                 style={{ height: `${h}px` }}
               />
             ),
