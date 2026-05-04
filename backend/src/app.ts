@@ -6,6 +6,7 @@ import userRoutes from "./modules/user/user.routes"
 import { errorHandler } from "./middlewares/error.middleware";
 import walletRoutes from "./modules/wallet/wallet.routes";
 import transactionRoutes from "./modules/transaction/transaction.routes";
+import goalRoutes from "./modules/goal/goal.routes";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use("/api/user", userRoutes)
 app.use("/api/wallets", walletRoutes);
 // transaction
 app.use("/api/transactions", transactionRoutes);
+// goals
+app.use("/api/goals", goalRoutes);
 
 // routes
 app.use(errorHandler);
