@@ -20,7 +20,7 @@ export class GoalController {
 
     res.status(200).json({
       message: "Goals retrieved successfully",
-      data: result.goals,
+      data: result.data,
       numberOfFilled: result.numberOfFilled,
     });
   }

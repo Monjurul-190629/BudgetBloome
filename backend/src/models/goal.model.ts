@@ -21,6 +21,12 @@ const goalSchema = new Schema(
       type: Boolean,
       default: false,
     },
+
+    description: {
+      type: String,
+      default: "",
+      trim: true,
+    },
   },
   { timestamps: true },
 );
