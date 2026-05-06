@@ -3,6 +3,7 @@ import BalanceCard from "@/features/wallet/components/BalanceCard";
 import ExpenseCard from "@/features/transaction/components/ExpenseCard";
 import QuickActionCard from "@/features/wallet/components/QuickActionCard";
 import WalletCard from "@/features/wallet/components/WalletCard";
+import TargetedExpenseCard from "@/features/transaction/components/TargetExpenseCard";
 
 const WalletPage = () => {
   return (
@@ -33,6 +34,7 @@ const WalletPage = () => {
           />
         </div>
       </div>
+      <TargetedExpenseCard type="this-month" />
     </div>
   );
 };
