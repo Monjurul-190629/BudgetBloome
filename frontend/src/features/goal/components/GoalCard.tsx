@@ -16,6 +16,7 @@ import type { GOAL } from "@/features/goal/type/goal.types";
 
 import CreateGoal from "./CreateGoal";
 import EditGoal from "./EditGoal";
+import AvailableWalletCard from "@/features/wallet/components/AvailableWalletCard";
 
 const GoalCard = () => {
   const [open, setOpen] = useState(false);
@@ -224,6 +225,7 @@ const GoalCard = () => {
               </div>
             </div>
           )}
+          <AvailableWalletCard />
         </div>
       </div>
 
