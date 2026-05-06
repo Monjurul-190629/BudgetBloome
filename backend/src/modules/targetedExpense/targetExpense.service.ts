@@ -23,17 +23,13 @@ export class TargetedExpenseService {
 
       if (to) {
         const toDate = new Date(to);
-
         toDate.setHours(23, 59, 59, 999);
-
         matchQuery.created_date.$lte = toDate;
       }
     }
 
     const result = await Transaction.aggregate([
-      {
-        $match: matchQuery,
-      },
+      { $match: matchQuery },
       {
         $group: {
           _id: null,
@@ -52,14 +48,15 @@ export class TargetedExpenseService {
       throw new AppError("Name and amount are required", 400);
     }
 
-    if (amount <= 0) {
+    if (Number(amount) <= 0) {
       throw new AppError("Amount must be greater than 0", 400);
     }
 
     const result = await TargetedExpense.create({
       user: userId,
       name,
-      amount,
+      amount: Number(amount),
+      filled: false,
     });
 
     return result;
@@ -76,11 +73,7 @@ export class TargetedExpenseService {
       createdAt: -1,
     });
 
-    const totalExpense = await this.getExpenseByDateRange(
-      userId,
-      from,
-      to,
-    );
+    const totalExpense = await this.getExpenseByDateRange(userId, from, to);
 
     const totalTargetedExpense = targets.reduce(
       (acc, target) => acc + target.amount,
@@ -89,7 +82,7 @@ export class TargetedExpenseService {
 
     const formattedTargets = targets.map((target) => ({
       ...target.toObject(),
-      filled: totalExpense >= target.amount,
+      filled: target.filled,
     }));
 
     return {
@@ -118,11 +111,15 @@ export class TargetedExpenseService {
     }
 
     if (data.amount !== undefined) {
-      if (data.amount <= 0) {
+      if (Number(data.amount) <= 0) {
         throw new AppError("Amount must be greater than 0", 400);
       }
 
       target.amount = Number(data.amount);
+    }
+
+    if (data.filled !== undefined) {
+      target.filled = Boolean(data.filled);
     }
 
     await target.save();
