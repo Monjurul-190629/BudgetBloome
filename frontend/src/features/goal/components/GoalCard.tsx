@@ -17,6 +17,7 @@ import type { GOAL } from "@/features/goal/type/goal.types";
 import CreateGoal from "./CreateGoal";
 import EditGoal from "./EditGoal";
 import AvailableWalletCard from "@/features/wallet/components/AvailableWalletCard";
+import MonthlySummaryCard from "@/features/transaction/components/MonthlySummaryCard";
 
 const GoalCard = () => {
   const [open, setOpen] = useState(false);
@@ -225,7 +226,8 @@ const GoalCard = () => {
               </div>
             </div>
           )}
-          <AvailableWalletCard />
+          <MonthlySummaryCard type="this-month" title="This Month" />
+          <MonthlySummaryCard type="last-month" title="Last Month" />
         </div>
       </div>
 

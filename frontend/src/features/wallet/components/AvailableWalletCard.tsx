@@ -1,3 +1,5 @@
+"use client";
+
 import useFetchData from "@/hooks/useFetchData";
 import {
   Building2,
