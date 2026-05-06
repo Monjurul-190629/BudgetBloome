@@ -1,5 +1,3 @@
-// src/features/transaction/types/transaction.types.ts
-
 import { z } from "zod";
 import { transactionSchema } from "../schema/transaction.schema";
 import { WALLET_RESPONSE } from "@/features/wallet/type/wallet.types";
