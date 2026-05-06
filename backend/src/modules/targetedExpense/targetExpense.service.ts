@@ -4,30 +4,35 @@ import Transaction from "../../models/transaction.model";
 import { AppError } from "../../utils/ApiError";
 
 export class TargetedExpenseService {
-  private static getMonthRange() {
-    const now = new Date();
+  private static async getExpenseByDateRange(
+    userId: string,
+    from?: string,
+    to?: string,
+  ) {
+    const matchQuery: any = {
+      user: new mongoose.Types.ObjectId(userId),
+      type: "expense",
+    };
 
-    const fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    const toDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    if (from || to) {
+      matchQuery.created_date = {};
 
-    toDate.setHours(23, 59, 59, 999);
+      if (from) {
+        matchQuery.created_date.$gte = new Date(from);
+      }
 
-    return { fromDate, toDate };
-  }
+      if (to) {
+        const toDate = new Date(to);
 
-  private static async getThisMonthExpense(userId: string) {
-    const { fromDate, toDate } = this.getMonthRange();
+        toDate.setHours(23, 59, 59, 999);
+
+        matchQuery.created_date.$lte = toDate;
+      }
+    }
 
     const result = await Transaction.aggregate([
       {
-        $match: {
-          user: new mongoose.Types.ObjectId(userId),
-          type: "expense",
-          created_date: {
-            $gte: fromDate,
-            $lte: toDate,
-          },
-        },
+        $match: matchQuery,
       },
       {
         $group: {
@@ -51,33 +56,46 @@ export class TargetedExpenseService {
       throw new AppError("Amount must be greater than 0", 400);
     }
 
-    const thisMonthExpense = await this.getThisMonthExpense(userId);
-
     const result = await TargetedExpense.create({
       user: userId,
       name,
       amount,
-      filled: thisMonthExpense >= amount,
     });
 
     return result;
   }
 
-  static async getTargetedExpenses(userId: string) {
-    const targets = await TargetedExpense.find({ user: userId }).sort({
+  static async getTargetedExpenses(
+    userId: string,
+    from?: string,
+    to?: string,
+  ) {
+    const targets = await TargetedExpense.find({
+      user: userId,
+    }).sort({
       createdAt: -1,
     });
 
-    const thisMonthExpense = await this.getThisMonthExpense(userId);
+    const totalExpense = await this.getExpenseByDateRange(
+      userId,
+      from,
+      to,
+    );
+
+    const totalTargetedExpense = targets.reduce(
+      (acc, target) => acc + target.amount,
+      0,
+    );
 
     const formattedTargets = targets.map((target) => ({
       ...target.toObject(),
-      filled: thisMonthExpense >= target.amount, // 🔥 dynamic calculation
+      filled: totalExpense >= target.amount,
     }));
 
     return {
       targets: formattedTargets,
-      thisMonthExpense,
+      totalExpense,
+      totalTargetedExpense,
     };
   }
 
@@ -95,17 +113,17 @@ export class TargetedExpenseService {
       throw new AppError("Targeted expense not found", 404);
     }
 
-    if (data.name !== undefined) target.name = data.name;
+    if (data.name !== undefined) {
+      target.name = data.name;
+    }
+
     if (data.amount !== undefined) {
       if (data.amount <= 0) {
         throw new AppError("Amount must be greater than 0", 400);
       }
+
       target.amount = Number(data.amount);
     }
-
-    const thisMonthExpense = await this.getThisMonthExpense(userId);
-
-    target.filled = thisMonthExpense >= target.amount;
 
     await target.save();
 

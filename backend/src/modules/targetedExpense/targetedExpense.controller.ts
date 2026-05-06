@@ -18,17 +18,22 @@ export class TargetedExpenseController {
     });
   }
 
-  static async getTargetedExpenses(req: AuthRequest, res: Response) {
-    const result = await TargetedExpenseService.getTargetedExpenses(
-      req.user._id,
-    );
+static async getTargetedExpenses(req: AuthRequest, res: Response) {
+  const { from, to } = req.query;
 
-    res.status(200).json({
-      message: "Targeted expenses retrieved successfully",
-      data: result.targets,
-      thisMonthExpense: result.thisMonthExpense,
-    });
-  }
+  const result = await TargetedExpenseService.getTargetedExpenses(
+    req.user._id,
+    from as string,
+    to as string,
+  );
+
+  res.status(200).json({
+    message: "Targeted expenses retrieved successfully",
+    data: result.targets,
+    totalExpense: result.totalExpense,
+    totalTargetedExpense: result.totalTargetedExpense,
+  });
+}
 
   static async updateTargetedExpense(req: AuthRequest, res: Response) {
     const result = await TargetedExpenseService.updateTargetedExpense(

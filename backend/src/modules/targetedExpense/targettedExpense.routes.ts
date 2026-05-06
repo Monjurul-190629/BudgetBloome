@@ -8,7 +8,7 @@ router.post("/", protect, TargetedExpenseController.createTargetedExpense);
 
 router.get("/", protect, TargetedExpenseController.getTargetedExpenses);
 
-router.patch(
+router.put(
   "/:id",
   protect,
   TargetedExpenseController.updateTargetedExpense,
