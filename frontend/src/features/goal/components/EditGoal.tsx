@@ -5,26 +5,26 @@ import type { AxiosError } from "axios";
 import { useRef } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
-import { updateWallet } from "../api/wallet.api";
-import type { WALLET, WALLET_RESPONSE } from "../type/wallet.types";
-import WalletMutationForm from "./WalletMutationForm";
+import { GOAL } from "../type/goal.types";
+import { updateGoal } from "../api/goal.api";
+import GoalMutationForm from "./GoalMutationForm";
 
 interface Props {
-  wallet: WALLET;
+  goal: GOAL;
   onSuccess: () => void;
 }
 
-const EditWallet = ({ wallet, onSuccess }: Props) => {
-  const formRef = useRef<UseFormReturn<WALLET> | null>(null);
+const EditGoal = ({ goal, onSuccess }: Props) => {
+  const formRef = useRef<UseFormReturn<GOAL> | null>(null);
 
   const queryClient = useQueryClient();
 
   const updateWalletMutation = useMutation({
-    mutationFn: updateWallet,
+    mutationFn: updateGoal,
     onSuccess: (response) => {
       if (response?.status === 200) {
         toast.success(response?.data?.detail || "Wallet updated successfully");
-        queryClient.invalidateQueries({ queryKey: ["getWallets"] });
+        queryClient.invalidateQueries({ queryKey: ["getGoals"] });
         queryClient.invalidateQueries({ queryKey: ["getTotalBalance"] });
         onSuccess();
       }
@@ -33,28 +33,28 @@ const EditWallet = ({ wallet, onSuccess }: Props) => {
       toast.error(
         error?.response?.data?.detail ||
           error.message ||
-          "Failed to create wallet",
+          "Failed to create goal",
       );
     },
   });
 
-  const onSubmit = (data: WALLET) => {
-    if (wallet._id) {
+  const onSubmit = (data: GOAL) => {
+    if (goal._id) {
       updateWalletMutation.mutate({
         data,
-        id: wallet._id,
+        id: goal._id,
       });
     }
   };
 
   return (
-    <WalletMutationForm
+    <GoalMutationForm
       onSubmit={onSubmit}
       isPending={updateWalletMutation.isPending}
       formRef={formRef}
-      wallet={wallet}
+      goal={goal}
     />
   );
 };
 
-export default EditWallet;
+export default EditGoal;

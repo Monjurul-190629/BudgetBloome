@@ -5,25 +5,23 @@ import type { AxiosError } from "axios";
 import { useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
-import { createWallet } from "../api/wallet.api";
-import type { WALLET } from "../type/wallet.types";
-import WalletMutationForm from "./WalletMutationForm";
+import { GOAL } from "../type/goal.types";
+import { createGoal } from "../api/goal.api";
+import GoalMutationForm from "./GoalMutationForm";
 
-const CreateWallet = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const formRef = useRef<UseFormReturn<WALLET> | null>(null);
+const CreateGoal = () => {
+  const formRef = useRef<UseFormReturn<GOAL> | null>(null);
 
   const queryClient = useQueryClient();
 
   const createWalletMutation = useMutation({
-    mutationFn: createWallet,
+    mutationFn: createGoal,
     onSuccess: (response) => {
       if (response?.status === 201) {
         toast.success(response?.data?.detail || "Wallet created successfully");
-        queryClient.invalidateQueries({ queryKey: ["getWallets"] });
+        queryClient.invalidateQueries({ queryKey: ["getGoals"] });
         queryClient.invalidateQueries({ queryKey: ["getTotalBalance"] });
         formRef.current?.reset();
-        setModalOpen(false);
       }
     },
     onError: (error: AxiosError<any>) => {
@@ -35,12 +33,12 @@ const CreateWallet = () => {
     },
   });
 
-  const onSubmit = (data: WALLET) => {
+  const onSubmit = (data: GOAL) => {
     createWalletMutation.mutate({ data });
   };
 
   return (
-    <WalletMutationForm
+    <GoalMutationForm
       onSubmit={onSubmit}
       isPending={createWalletMutation.isPending}
       formRef={formRef}
@@ -48,4 +46,4 @@ const CreateWallet = () => {
   );
 };
 
-export default CreateWallet;
+export default CreateGoal;

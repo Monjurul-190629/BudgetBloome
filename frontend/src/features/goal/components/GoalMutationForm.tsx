@@ -4,26 +4,26 @@ import { Form } from "@/components/ui/form";
 import { EditIcon, PlusCircleIcon } from "lucide-react";
 import { useEffect, type Ref } from "react";
 import { useForm, type UseFormReturn } from "react-hook-form";
-import type { WALLET } from "../type/wallet.types";
 import FormInput from "@/components/common-ui/form/FormInput";
 import IconButton from "@/components/common-ui/button/IconButton";
+import { GOAL } from "../type/goal.types";
 
 interface Props {
-  onSubmit: (data: WALLET) => void;
+  onSubmit: (data: GOAL) => void;
   isPending?: boolean;
-  wallet?: WALLET | null;
-  formRef: Ref<UseFormReturn<WALLET> | null>;
+  goal?: GOAL | null;
+  formRef: Ref<UseFormReturn<GOAL> | null>;
 }
 
-const WalletMutationForm = ({
+const GoalMutationForm = ({
   onSubmit,
   isPending,
-  wallet,
+  goal,
   formRef,
 }: Props) => {
-  const form = useForm<WALLET>({
+  const form = useForm<GOAL>({
     defaultValues: {
-      wallet_name: "",
+      name: "",
       amount: 0,
     },
   });
@@ -35,13 +35,13 @@ const WalletMutationForm = ({
   }, [form, formRef]);
 
   useEffect(() => {
-    if (wallet) {
+    if (goal) {
       form.reset({
-        wallet_name: wallet.wallet_name ?? "",
-        amount: wallet.amount ?? 0,
+        name: goal.name ?? "",
+        amount: goal.amount ?? 0,
       });
     }
-  }, [wallet, form]);
+  }, [goal, form]);
 
   return (
     <Form {...form}>
@@ -50,10 +50,10 @@ const WalletMutationForm = ({
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormInput
-          name="wallet_name"
+          name="name"
           form={form}
-          label="Wallet Name"
-          placeholder="Enter wallet name"
+          label="Goal Name"
+          placeholder="Enter goal name"
           isRequired
         />
 
@@ -71,9 +71,9 @@ const WalletMutationForm = ({
             type="submit"
             isPending={isPending}
             className="w-[160px]"
-            icon={!wallet ? <PlusCircleIcon /> : <EditIcon />}
+            icon={!goal ? <PlusCircleIcon /> : <EditIcon />}
           >
-            {!wallet ? "Create Wallet" : "Update"}
+            {!goal ? "Create Wallet" : "Update"}
           </IconButton>
         </div>
       </form>
@@ -81,4 +81,4 @@ const WalletMutationForm = ({
   );
 };
 
-export default WalletMutationForm;
+export default GoalMutationForm;
