@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Wallet from "../../models/wallet.model";
 import { AppError } from "../../utils/ApiError";
+import transactionModel from "../../models/transaction.model";
 
 export class WalletService {
   static async createWallet(userId: string, data: any) {
@@ -19,6 +20,18 @@ export class WalletService {
       wallet_name,
       amount,
     });
+
+    if (amount > 0) {
+      await transactionModel.create({
+        user: userId,
+        wallet: wallet._id,
+        category_name: "Initial Balance",
+        description: "Wallet opening balance",
+        amount,
+        type: "income",
+        created_date: new Date(),
+      });
+  }
 
     return wallet;
   }
