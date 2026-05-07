@@ -13,3 +13,11 @@ export type REGISTRATION_PAYLOAD = {
   image?: string;
   phone?: string;
 };
+
+export type PROFILE = {
+  name: string;
+  email: string;
+  phone?: string;
+  address: string;
+  image?: string;
+}
