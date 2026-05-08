@@ -55,7 +55,7 @@ const AvailableWalletCard = () => {
         Available by Wallet
       </h2>
 
-      <div className="space-y-7">
+      <div className="space-y-4">
         {wallets.map((wallet: any, index: number) => {
           const style = iconList[index % iconList.length];
 
@@ -67,7 +67,7 @@ const AvailableWalletCard = () => {
           return (
             <div
               key={wallet._id}
-              className="grid grid-cols-[52px_1fr] items-center gap-3 md:gap-4"
+              className="grid grid-cols-[52px_1fr] items-center gap-2 md:gap-2"
             >
               <div
                 className={`w-11 h-11 rounded-full ${style.iconBg} flex items-center justify-center`}
