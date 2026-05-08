@@ -1,5 +1,11 @@
+import MonthlyAnalyticsCard from "@/features/analytics/components/MonthlyAnalyticsCard";
+
 const page = () => {
-  return <div>This is analytics page</div>;
+  return (
+    <div>
+      <MonthlyAnalyticsCard type="this-month" title="This month" />
+    </div>
+  );
 };
 
 export default page;
