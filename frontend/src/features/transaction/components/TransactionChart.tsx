@@ -13,6 +13,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getTransactionHistory } from "@/features/transaction/api/transaction.api";
 import { getDateRange, PeriodType } from "@/lib/utils/getDateRange";
+import SkeletonTransactionChart from "../skeleton/SkeletonTransactionChart";
 
 type ChartPeriod = Exclude<PeriodType, "today" | "weekly" | "total">;
 
@@ -73,9 +74,7 @@ const TransactionChart = ({ type = "both" }: TransactionChartProps) => {
       <h2 className="mb-4 text-lg font-semibold">{getTitle(type)}</h2>
 
       {isLoading ? (
-        <div className="flex h-[300px] items-center justify-center text-sm text-gray-400">
-          Loading chart...
-        </div>
+        <SkeletonTransactionChart />
       ) : (
         <ResponsiveContainer width="100%" height="90%">
           <LineChart
