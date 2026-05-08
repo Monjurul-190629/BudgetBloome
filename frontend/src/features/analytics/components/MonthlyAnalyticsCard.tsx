@@ -28,25 +28,31 @@ const MonthlyAnalyticsCard = ({
   const expense = getTransactionsData?.data?.data?.total_expense ?? 0;
   const saves = income - expense;
 
+  const incomePercent = ((income / 100000) * 100).toFixed(1);
+
+  const expensePercent = income > 0 ? ((expense / income) * 100).toFixed(1) : 0;
+
+  const savesPercent = income > 0 ? ((saves / income) * 100).toFixed(1) : 0;
+
   const summaryItems = [
     {
       title: "Monthly Income",
       amount: income,
-      percent: "+12.5%",
+      percent: incomePercent,
       bg: "bg-[#16a34a]",
       icon: TrendingUp,
     },
     {
       title: "Monthly Expenses",
       amount: expense,
-      percent: "+5.2%",
+      percent: `${expensePercent}%`,
       bg: "bg-[#dc2626]",
       icon: FileText,
     },
     {
       title: "Total Savings",
       amount: saves,
-      percent: "+18.3%",
+      percent: `${savesPercent}%`,
       bg: "bg-[#f59e0b]",
       icon: FileType2,
     },
