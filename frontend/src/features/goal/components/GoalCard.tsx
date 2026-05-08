@@ -82,7 +82,7 @@ const GoalCard = () => {
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
-        <div className="space-y-5">
+        <div className="space-y-2">
           {goals.length > 0 ? (
             goals.map((goal) => {
               const isActive = selectedGoal?._id === goal._id;
@@ -99,7 +99,21 @@ const GoalCard = () => {
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="text-lg font-semibold">{goal.name}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-lg font-semibold">{goal.name}</p>
+
+                        {goal.filled && (
+                          <span
+                            className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                              isActive
+                                ? "bg-white/20 text-white"
+                                : "bg-green-500/20 text-green-400"
+                            }`}
+                          >
+                            Completed
+                          </span>
+                        )}
+                      </div>
 
                       <p className="mt-3 text-sm">
                         <span className="font-bold">৳ {totalBalance}</span>
@@ -171,7 +185,7 @@ const GoalCard = () => {
 
           <ShapedModal
             trigger={
-              <button className="w-full flex items-center justify-center gap-2 bg-black hover:bg-gray-900 font-semibold py-4 rounded-3xl transition">
+              <button className="w-full flex items-center justify-center gap-2 bg-black hover:bg-gray-900 text-white font-semibold py-3 rounded-2xl transition">
                 <PlusCircle className="w-5 h-5" />
                 Add Goal
               </button>
