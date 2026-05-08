@@ -60,9 +60,9 @@ const useTransactionChartData = () => {
 };
 
 const getTitle = (type: TransactionChartType) => {
-  if (type === "income") return "Income Chart";
-  if (type === "expense") return "Expense Chart";
-  return "Transaction Chart";
+  if (type === "income") return "Income Overview";
+  if (type === "expense") return "Expense Overview";
+  return "Financial Overview";
 };
 
 const TransactionChart = ({ type = "both" }: TransactionChartProps) => {
