@@ -89,4 +89,15 @@ static async getTotalIncome(req: AuthRequest, res: Response) {
   }
 }
 
+static async getTransactionLastSevenDays(req: AuthRequest, res: Response) {
+    const result = await TransactionService.getTransactionLastSevenDays(
+      req.user._id,
+    );
+
+    res.status(200).json({
+      message: "Last 7 days transactions fetched successfully",
+      data: result,
+    });
+  }
+
 }

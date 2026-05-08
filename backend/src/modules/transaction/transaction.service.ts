@@ -5,19 +5,13 @@ import { AppError } from "../../utils/ApiError";
 
 export class TransactionService {
   static async createTransaction(userId: string, data: any) {
-    const {
-      wallet,
-      category_name,
-      description,
-      amount,
-      created_date,
-      type,
-    } = data;
+    const { wallet, category_name, description, amount, created_date, type } =
+      data;
 
     if (!wallet || !category_name || !amount || !type) {
       throw new AppError(
         "Wallet, category name, amount and type are required",
-        400
+        400,
       );
     }
 
@@ -63,7 +57,7 @@ export class TransactionService {
         $inc: {
           amount: balanceChange,
         },
-      }
+      },
     );
 
     return transaction;
@@ -160,6 +154,69 @@ export class TransactionService {
     };
   }
 
+  static async getTransactionLastSevenDays(userId: string) {
+    const today = new Date();
+
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - 6);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(today);
+    endDate.setHours(23, 59, 59, 999);
+
+    const result = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userId),
+          created_date: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            date: {
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: "$created_date",
+              },
+            },
+            type: "$type",
+          },
+          total: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    const lastSevenDays = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + index);
+
+      const formattedDate = date.toISOString().split("T")[0];
+
+      const incomeData = result.find(
+        item =>
+          item._id.date === formattedDate && item._id.type === "income",
+      );
+
+      const expenseData = result.find(
+        item =>
+          item._id.date === formattedDate && item._id.type === "expense",
+      );
+
+      return {
+        date: formattedDate,
+        day: date.toLocaleString("default", { weekday: "long" }),
+        income: incomeData?.total || 0,
+        expense: expenseData?.total || 0,
+      };
+    });
+
+    return lastSevenDays;
+  }
+
   static async getTotalExpense(userId: string) {
     const result = await Transaction.aggregate([
       {
@@ -181,6 +238,48 @@ export class TransactionService {
     };
   }
 
+  static async getTotalIncome(userId: string, query: any) {
+    const { from, to } = query;
+
+    if (!from || !to) {
+      throw new AppError("From date and to date are required", 400);
+    }
+
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+
+    if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+      throw new AppError("Invalid date format", 400);
+    }
+
+    toDate.setHours(23, 59, 59, 999);
+
+    const result = await Transaction.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userId),
+          type: "income",
+          created_date: {
+            $gte: fromDate,
+            $lte: toDate,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total_income: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    return {
+      from: fromDate,
+      to: toDate,
+      total_income: result[0]?.total_income || 0,
+    };
+  }
+
   static async deleteTransaction(userId: string, transactionId: string) {
     const transaction = await Transaction.findOne({
       _id: transactionId,
@@ -192,9 +291,7 @@ export class TransactionService {
     }
 
     const balanceChange =
-      transaction.type === "income"
-        ? -transaction.amount
-        : transaction.amount;
+      transaction.type === "income" ? -transaction.amount : transaction.amount;
 
     await Wallet.findOneAndUpdate(
       {
@@ -205,53 +302,11 @@ export class TransactionService {
         $inc: {
           amount: balanceChange,
         },
-      }
+      },
     );
 
     await Transaction.findByIdAndDelete(transactionId);
 
     return transaction;
   }
-
-  static async getTotalIncome(userId: string, query: any) {
-  const { from, to } = query;
-
-  if (!from || !to) {
-    throw new AppError("From date and to date are required", 400);
-  }
-
-  const fromDate = new Date(from);
-  const toDate = new Date(to);
-
-  if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
-    throw new AppError("Invalid date format", 400);
-  }
-
-  toDate.setHours(23, 59, 59, 999);
-
-  const result = await Transaction.aggregate([
-    {
-      $match: {
-        user: new mongoose.Types.ObjectId(userId),
-        type: "income",
-        created_date: {
-          $gte: fromDate,
-          $lte: toDate,
-        },
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        total_income: { $sum: "$amount" },
-      },
-    },
-  ]);
-
-  return {
-    from: fromDate,
-    to: toDate,
-    total_income: result[0]?.total_income || 0,
-  };
-}
 }
