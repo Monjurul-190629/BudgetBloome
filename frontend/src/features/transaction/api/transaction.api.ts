@@ -42,5 +42,7 @@ export const getTotalIncome = ({
 
 export const getTotalExpense = () => instance.get("/transactions/total-expense");
 
+export const getLastSevenDaysData = () => instance.get("/transactions/last-seven-days");
+
 export const deleteTransaction = ({ id }: { id: string }) =>
   instance.delete(`/transactions/${id}`);

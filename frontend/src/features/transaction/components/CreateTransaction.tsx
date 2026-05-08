@@ -68,6 +68,14 @@ const CreateTransaction = () => {
         queryClient.invalidateQueries({ queryKey: ["getWallets"] });
         queryClient.invalidateQueries({ queryKey: ["getTotalBalance"] });
         queryClient.invalidateQueries({ queryKey: ["getTransactionHistory"] });
+        queryClient.invalidateQueries({
+          queryKey: ["transaction-bar-chart-data"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["transaction-last-seven-days;"],
+        });
+
+        
 
         form.reset();
       }
