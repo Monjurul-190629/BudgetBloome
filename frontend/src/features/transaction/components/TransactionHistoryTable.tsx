@@ -7,6 +7,7 @@ import { Plus } from "lucide-react";
 import CreateTransaction from "./CreateTransaction";
 import useFetchData from "@/hooks/useFetchData";
 import { getTransactionHistory } from "../api/transaction.api";
+import SkeletonTransactionHistoryTable from "../skeleton/SkeletonTransactionHistoryTable";
 
 export default function TransactionHistoryTable() {
   const [page, setPage] = useState(1);
@@ -18,6 +19,14 @@ export default function TransactionHistoryTable() {
 
   const transactions = transactionsData?.data?.data?.data ?? [];
   const meta = transactionsData?.data?.data?.meta;
+
+  if (isLoading) {
+    return (
+      <div className="w-full rounded-2xl bg-black p-4 text-white">
+        <SkeletonTransactionHistoryTable />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full rounded-2xl bg-black p-4 text-white">
@@ -57,13 +66,7 @@ export default function TransactionHistoryTable() {
           </thead>
 
           <tbody>
-            {isLoading ? (
-              <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
-                  Loading transactions...
-                </td>
-              </tr>
-            ) : transactions.length > 0 ? (
+            {transactions.length > 0 ? (
               transactions.map((t: any) => (
                 <tr
                   key={t._id}

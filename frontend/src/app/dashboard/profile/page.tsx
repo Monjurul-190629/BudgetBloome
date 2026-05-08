@@ -13,6 +13,9 @@ const page = () => {
       <div className="flex flex-col md:flex-row gap-2">
         <TransactionChart type="income" />
       </div>
+      <div>
+        <TransactionHistoryTable />
+      </div>
     </div>
   );
 };
