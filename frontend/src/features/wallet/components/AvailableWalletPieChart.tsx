@@ -3,6 +3,7 @@
 import useFetchData from "@/hooks/useFetchData";
 import { getAllWallets } from "../api/wallet.api";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import SkeletonWalletPieChart from "../skeleton/SkeletonWalletPieChart";
 
 const COLORS = [
   "#22c55e",
@@ -14,7 +15,10 @@ const COLORS = [
 ];
 
 const AvailableWalletPieChart = () => {
-  const { data: walletsData } = useFetchData(["getWallets"], getAllWallets);
+  const { data: walletsData, isLoading } = useFetchData(
+    ["getWallets"],
+    getAllWallets,
+  );
 
   const wallets = walletsData?.data?.data ?? [];
 
@@ -34,6 +38,10 @@ const AvailableWalletPieChart = () => {
     name: wallet.wallet_name,
     value: Number(wallet.amount || 0),
   }));
+
+  if (isLoading) {
+    return <SkeletonWalletPieChart />;
+  }
 
   return (
     <div className="w-full rounded-2xl border border-white/10 bg-black p-5 text-white shadow-lg transition-all dark:border-zinc-200 dark:bg-black md:p-6">
@@ -84,7 +92,7 @@ const AvailableWalletPieChart = () => {
                 </Pie>
 
                 <Tooltip
-                  isAnimationActive={true}
+                  isAnimationActive
                   animationDuration={200}
                   animationEasing="ease-out"
                   wrapperStyle={{
@@ -106,6 +114,7 @@ const AvailableWalletPieChart = () => {
                       >
                         <div className="flex items-center justify-center gap-2">
                           <p className="text-sm text-white">{item.name}</p>
+
                           <p className="text-sm text-white">৳{item.value}</p>
                         </div>
                       </div>
