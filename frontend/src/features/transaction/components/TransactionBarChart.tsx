@@ -69,16 +69,12 @@ const getTitle = (type: TransactionChartType) => {
 const TransactionBarChart = ({ type = "both" }: TransactionBarChartProps) => {
   const { data: chartData = [], isLoading } = useTransactionBarChartData();
 
-  if (isLoading) return <SkeletonTransactionBarChart />;
-
   return (
     <div className="h-[380px] w-full rounded-2xl bg-black p-4 text-white">
       <h2 className="mb-4 text-lg font-semibold">{getTitle(type)}</h2>
 
       {isLoading ? (
-        <div className="flex h-[300px] items-center justify-center text-sm text-gray-400">
-          Loading chart...
-        </div>
+        <SkeletonTransactionBarChart />
       ) : (
         <ResponsiveContainer width="100%" height="90%">
           <BarChart
