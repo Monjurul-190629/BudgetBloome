@@ -18,6 +18,7 @@ import CreateGoal from "./CreateGoal";
 import EditGoal from "./EditGoal";
 import AvailableWalletCard from "@/features/wallet/components/AvailableWalletCard";
 import MonthlySummaryCard from "@/features/transaction/components/MonthlySummaryCard";
+import SkeletonGoalCard from "../skeleton/SkeletonGoalCard";
 
 const GoalCard = () => {
   const [open, setOpen] = useState(false);
@@ -27,7 +28,10 @@ const GoalCard = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: goalsData } = useFetchData(["getGoals"], getAllGoals);
+  const { data: goalsData, isLoading } = useFetchData(
+    ["getGoals"],
+    getAllGoals,
+  );
 
   const { data: totalBalanceData } = useFetchData(["getTotalBalance"], () =>
     getTotalBalance(),
@@ -78,6 +82,8 @@ const GoalCard = () => {
     goalAmount > 0
       ? Math.min(Math.round((totalBalance / goalAmount) * 100), 100)
       : 0;
+
+  if (isLoading) return <SkeletonGoalCard />;
 
   return (
     <div className="w-full">
