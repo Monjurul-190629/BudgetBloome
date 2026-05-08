@@ -2,6 +2,7 @@ import ProfileCard from "@/features/profile/components/ProfileCard";
 import TransactionBarChart from "@/features/transaction/components/TransactionBarChart";
 import TransactionChart from "@/features/transaction/components/TransactionChart";
 import TransactionHistoryTable from "@/features/transaction/components/TransactionHistoryTable";
+import AvailableWalletPieChart from "@/features/wallet/components/AvailableWalletPieChart";
 
 const page = () => {
   return (
@@ -12,6 +13,7 @@ const page = () => {
       </div>
       <div className="flex flex-col md:flex-row gap-2">
         <TransactionChart type="income" />
+        <AvailableWalletPieChart />
       </div>
       <div>
         <TransactionHistoryTable />
