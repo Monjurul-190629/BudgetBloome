@@ -7,6 +7,7 @@ import {
   CreditCard,
   Landmark,
   PiggyBank,
+  Building,
 } from "lucide-react";
 import { getAllWallets } from "../api/wallet.api";
 
@@ -32,7 +33,7 @@ const iconList = [
     barColor: "bg-pink-400",
   },
   {
-    icon: PiggyBank,
+    icon: Building,
     iconBg: "bg-orange-500",
     barColor: "bg-orange-400",
   },

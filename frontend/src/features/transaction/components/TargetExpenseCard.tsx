@@ -102,7 +102,7 @@ const TargetedExpenseCard = ({ type }: TargetedExpenseCardProps) => {
   };
 
   const title =
-    type === "this-month" ? "This Month Expenses" : "Last Month Expenses";
+    type === "this-month" ? "Current Month Expenses" : "Last Month Expenses";
 
   return (
     <div className="w-full max-w-md rounded-2xl bg-black p-5 text-white shadow-xl">
