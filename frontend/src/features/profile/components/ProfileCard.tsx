@@ -13,9 +13,9 @@ const ProfileCard = () => {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#0f0f0f] p-5 shadow-xl transition-all dark:g-[#f4f4f5] darK:border darK:border-zinc-200">
+    <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-green-800 p-5 shadow-xl transition-all dark:g-[#f4f4f5] darK:border darK:border-zinc-200">
       <div className="flex flex-col items-center">
-        <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-green-500 shadow-md">
+        <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-red-600 shadow-md">
           <Image
             src={profile.image || "/default-avatar.png"}
             alt={profile.name}
@@ -26,7 +26,7 @@ const ProfileCard = () => {
 
         <h2 className="mt-4 text-2xl font-bold text-white">{profile.name}</h2>
 
-        <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
+        <p className="mt-1 text-xs text-zinc-200 dark:text-zinc-300">
           BudgetBloom User
         </p>
       </div>
