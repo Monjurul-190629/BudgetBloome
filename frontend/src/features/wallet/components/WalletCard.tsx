@@ -2,25 +2,26 @@
 
 import useFetchData from "@/hooks/useFetchData";
 import { deleteWallet, getAllWallets } from "../api/wallet.api";
-import { Edit, PlusCircle, Trash2, Wallet } from "lucide-react";
+import { PlusCircle, Trash2, Wallet } from "lucide-react";
 import { useState } from "react";
 import ShapedModal from "@/components/common-ui/modal/ShapedModal";
 import CreateWallet from "./CreateWalletData";
-import EditWallet from "./EditWallet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { AxiosError } from "axios";
-import { WALLET } from "../type/wallet.types";
 import { AlertModal } from "@/components/common-ui/modal/AlertModal";
+import SkeletonWalletPieChart from "../skeleton/SkeletonWalletPieChart";
+import SkeletonWalletCard from "../skeleton/SkeletonWalletCard";
 
 const WalletCard = () => {
   const [open, setOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
-  const [selectedWallet, setSelectedWallet] = useState<any>(null);
 
   const queryClient = useQueryClient();
 
-  const { data: walletsData } = useFetchData(["getWallets"], getAllWallets);
+  const { data: walletsData, isLoading } = useFetchData(
+    ["getWallets"],
+    getAllWallets,
+  );
   const wallets = walletsData?.data?.data ?? [];
 
   const deleteWalletMutation = useMutation({
@@ -39,10 +40,7 @@ const WalletCard = () => {
     },
   });
 
-  const handleEdit = (wallet: WALLET) => {
-    setSelectedWallet(wallet);
-    setEditOpen(true);
-  };
+  if (isLoading) return <SkeletonWalletCard />;
 
   return (
     <div className="bg-black text-white rounded-2xl p-5 w-full max-w-md shadow-xl">
