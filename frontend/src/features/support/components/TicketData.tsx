@@ -19,6 +19,7 @@ import {
   MessageCircleQuestion,
   Ticket,
 } from "lucide-react";
+import SkeletonTicketData from "../skeleton/SkeletonTicketData";
 
 const TicketData = () => {
   const [page, setPage] = useState(1);
@@ -32,11 +33,7 @@ const TicketData = () => {
   const meta = ticketsData?.data?.meta;
 
   if (isLoading) {
-    return (
-      <div className="w-full rounded-2xl bg-black p-5 shadow-sm">
-        <p className="text-sm text-gray-400">Loading tickets...</p>
-      </div>
-    );
+    return <SkeletonTicketData />;
   }
 
   if (!tickets.length) {
