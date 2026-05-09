@@ -7,7 +7,7 @@ import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { GOAL } from "../type/goal.types";
 import { updateGoal } from "../api/goal.api";
-import GoalMutationForm from "./GoalMutationForm";
+import GoalMutationForm from "./GoalsMutationForm";
 
 interface Props {
   goal: GOAL;
