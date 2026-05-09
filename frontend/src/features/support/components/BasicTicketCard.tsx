@@ -25,7 +25,7 @@ const BasicTicketCard = () => {
           trigger={
             <IconButton
               icon={<PlusCircle className="h-4 w-4" />}
-              className="bg-green-500 font-semibold text-black hover:bg-green-600"
+              className="bg-green-800 font-semibold text-white hover:bg-green-600"
             >
               Create Ticket
             </IconButton>
