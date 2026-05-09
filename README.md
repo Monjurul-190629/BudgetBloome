@@ -80,9 +80,9 @@ This project is licensed under the MIT License.
 
 # Author
 Monjurul Alam
-Jr. Software Engineer (Frontend)
-Govaly Ltd., Chattogram, Bangladesh
-Passionate about building scalable full-stack web applications
+- Jr. Software Engineer (Frontend)
+- Govaly Ltd., Chattogram, Bangladesh
+- Passionate about building scalable full-stack web applications
 
 # ⭐ Support
 
