@@ -8,6 +8,7 @@ import walletRoutes from "./modules/wallet/wallet.routes";
 import transactionRoutes from "./modules/transaction/transaction.routes";
 import goalRoutes from "./modules/goal/goal.routes";
 import targetedExpenseRoutes from "./modules/targetedExpense/targettedExpense.routes"
+import ticketRoutes from "./modules/ticket/ticket.routes"
 
 const app = express();
 
@@ -27,7 +28,8 @@ app.use("/api/transactions", transactionRoutes);
 app.use("/api/goals", goalRoutes);
 // targeted expense
 app.use("/api/targeted-expenses", targetedExpenseRoutes);
-
+//ticket
+app.use("/api/tickets", ticketRoutes);
 // routes
 app.use(errorHandler);
 
