@@ -2,8 +2,6 @@ import DashboardHeader from "@/components/layout/DashboardHeader";
 import ProfileCard from "@/features/profile/components/ProfileCard";
 import TransactionAreaChart from "@/features/transaction/components/TransactionAreaChart";
 import TransactionBarChart from "@/features/transaction/components/TransactionBarChart";
-import TransactionChart from "@/features/transaction/components/TransactionChart";
-import TransactionHistoryTable from "@/features/transaction/components/TransactionHistoryTable";
 import AvailableWalletPieChart from "@/features/wallet/components/AvailableWalletPieChart";
 
 const page = () => {

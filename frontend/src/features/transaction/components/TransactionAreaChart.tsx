@@ -61,10 +61,10 @@ const useTransactionChartData = () => {
 };
 
 const getTitle = (type: TransactionChartType) => {
-  if (type === "income") return "Income Overview";
-  if (type === "expense") return "Expense Overview";
+  if (type === "income") return "Income Area Chart";
+  if (type === "expense") return "Expense Area Chart";
 
-  return "Financial Overview";
+  return "Financial Area Chart";
 };
 
 const TransactionAreaChart = ({ type = "both" }: TransactionAreaChartProps) => {
