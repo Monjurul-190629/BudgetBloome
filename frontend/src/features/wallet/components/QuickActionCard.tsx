@@ -30,7 +30,7 @@ const actions = [
 
 const QuickActionCard = () => {
   return (
-    <Card className="mt-5 w-full max-w-[400px] rounded-2xl border-0 bg-black text-white shadow-xl">
+    <Card className=" w-full max-w-[400px] rounded-2xl border-0 bg-black text-white shadow-xl">
       <CardHeader>
         <CardTitle className="text-xl font-bold">Quick Actions</CardTitle>
       </CardHeader>

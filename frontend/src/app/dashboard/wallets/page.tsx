@@ -4,19 +4,20 @@ import ExpenseCard from "@/features/transaction/components/ExpenseCard";
 import QuickActionCard from "@/features/wallet/components/QuickActionCard";
 import WalletCard from "@/features/wallet/components/WalletCard";
 import TargetedExpenseCard from "@/features/transaction/components/TargetExpenseCard";
+import TransactionAreaChart from "@/features/transaction/components/TransactionAreaChart";
+import AvailableWalletChart from "@/features/wallet/components/AvailableWalletChart";
 
 const WalletPage = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex w-full flex-col gap-4">
       <DashboardHeader title="Wallets" />
 
-      <div className="grid grid-cols-1 justify-start gap-5 xl:grid-cols-12 xl:items-start">
-        <div className="flex flex-col xl:col-span-5 2xl:col-span-4">
+      <section className="grid w-full grid-cols-1 gap-5 xl:grid-cols-12 items-start">
+        <div className="w-full xl:col-span-5 2xl:col-span-4 self-start">
           <WalletCard />
-          <QuickActionCard />
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:col-span-7">
+        <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 xl:col-span-7 2xl:col-span-8">
           <BalanceCard title="Current Balance" type="current" />
 
           <BalanceCard title="Saving Balance" type="saving" />
@@ -33,8 +34,12 @@ const WalletPage = () => {
             changeDefault
           />
         </div>
-      </div>
-      <TargetedExpenseCard type="this-month" />
+      </section>
+
+      <section className="flex flex-col gap-2 md:flex-row">
+        <AvailableWalletChart />
+        <TransactionAreaChart />
+      </section>
     </div>
   );
 };
