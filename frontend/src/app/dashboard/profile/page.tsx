@@ -1,3 +1,4 @@
+import DashboardHeader from "@/components/layout/DashboardHeader";
 import ProfileCard from "@/features/profile/components/ProfileCard";
 import TransactionBarChart from "@/features/transaction/components/TransactionBarChart";
 import TransactionChart from "@/features/transaction/components/TransactionChart";
@@ -7,6 +8,7 @@ import AvailableWalletPieChart from "@/features/wallet/components/AvailableWalle
 const page = () => {
   return (
     <div className="flex flex-col gap-2">
+      <DashboardHeader title="Profile" />
       <div className="flex flex-col md:flex-row gap-2">
         <ProfileCard />
         <TransactionBarChart type="both" />
@@ -14,9 +16,6 @@ const page = () => {
       <div className="flex flex-col md:flex-row gap-2">
         <TransactionChart type="income" />
         <AvailableWalletPieChart />
-      </div>
-      <div>
-        <TransactionHistoryTable />
       </div>
     </div>
   );

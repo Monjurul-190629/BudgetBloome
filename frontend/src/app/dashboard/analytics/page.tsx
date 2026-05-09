@@ -2,6 +2,7 @@ import DashboardHeader from "@/components/layout/DashboardHeader";
 import MonthlyAnalyticsCard from "@/features/analytics/components/MonthlyAnalyticsCard";
 import TargetedExpenseCard from "@/features/transaction/components/TargetExpenseCard";
 import TransactionChart from "@/features/transaction/components/TransactionChart";
+import TransactionHistoryTable from "@/features/transaction/components/TransactionHistoryTable";
 import TransactionWeeklyBarChart from "@/features/transaction/components/TransactionWeeklyBarChart";
 import AvailableWalletCard from "@/features/wallet/components/AvailableWalletCard";
 
@@ -19,6 +20,7 @@ const page = () => {
         <TargetedExpenseCard type="last-month" />
         <AvailableWalletCard />
       </div>
+      <TransactionHistoryTable />
     </div>
   );
 };
