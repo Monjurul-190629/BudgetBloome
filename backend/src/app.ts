@@ -12,7 +12,12 @@ import ticketRoutes from "./modules/ticket/ticket.routes"
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -30,11 +35,11 @@ app.use("/api/goals", goalRoutes);
 app.use("/api/targeted-expenses", targetedExpenseRoutes);
 //ticket
 app.use("/api/tickets", ticketRoutes);
-// routes
-app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.send("Backend is working perfectly");
 });
+
+app.use(errorHandler);
 
 export default app;
