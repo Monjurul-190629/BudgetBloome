@@ -1,9 +1,7 @@
-import Image from "next/image";
+import LoginForm from "@/features/auth/components/LoginForm";
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-center">Hello world</h1>
-    </div>
+    <LoginForm />
   );
 }

@@ -47,7 +47,7 @@ const LoginForm = () => {
           localStorage.setItem("token", token);
         }
 
-        router.push("/");
+        router.push("/dashboard");
       }
 
       toast.success(message || "Login successful");

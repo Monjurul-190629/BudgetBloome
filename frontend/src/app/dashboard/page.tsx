@@ -17,16 +17,14 @@ const Page = () => {
           <IncomeCard type="this-month" title="This Month Income" />
           <ExpenseCard type="this-month" title="This Month Expense" />
         </div>
-
         <div className="w-full min-w-0">
           <TransactionAreaChart type="income" />
         </div>
       </div>
-      <div className="flex w-full flex-col items-start gap-2 lg:flex-row">
+      <div className="flex w-full flex-col items-start gap-4 lg:flex-row">
         <div className="w-full shrink-0 md:w-[400px]">
           <BalanceCard title="Current Balance" type="current" />
         </div>
-
         <div className="w-full flex-1">
           <TransactionWeeklyBarChart />
         </div>

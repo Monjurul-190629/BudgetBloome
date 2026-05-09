@@ -8,7 +8,7 @@ const page = () => {
   return (
     <div className="flex flex-col gap-2">
       <DashboardHeader title="Profile" />
-      <div className="flex flex-col md:flex-row gap-2">
+      <div className="flex flex-col md:flex-row gap-2 justify-center">
         <ProfileCard />
         <TransactionBarChart type="both" />
       </div>
