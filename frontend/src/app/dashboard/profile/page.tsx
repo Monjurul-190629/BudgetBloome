@@ -1,5 +1,6 @@
 import DashboardHeader from "@/components/layout/DashboardHeader";
 import ProfileCard from "@/features/profile/components/ProfileCard";
+import TransactionAreaChart from "@/features/transaction/components/TransactionAreaChart";
 import TransactionBarChart from "@/features/transaction/components/TransactionBarChart";
 import TransactionChart from "@/features/transaction/components/TransactionChart";
 import TransactionHistoryTable from "@/features/transaction/components/TransactionHistoryTable";
@@ -14,7 +15,7 @@ const page = () => {
         <TransactionBarChart type="both" />
       </div>
       <div className="flex flex-col md:flex-row gap-2">
-        <TransactionChart type="income" />
+        <TransactionAreaChart type="income" />
         <AvailableWalletPieChart />
       </div>
     </div>
