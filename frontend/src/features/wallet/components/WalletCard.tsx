@@ -74,14 +74,6 @@ const WalletCard = () => {
                 </span>
 
                 <div className="hidden group-hover:flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleEdit(wallet)}
-                    className="p-1.5 rounded-md bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition"
-                  >
-                    <Edit className="w-4 h-4" />
-                  </button>
-
                   <AlertModal
                     trigger={
                       <button
@@ -126,25 +118,6 @@ const WalletCard = () => {
       >
         <CreateWallet />
       </ShapedModal>
-
-      {selectedWallet && (
-        <ShapedModal
-          trigger={<button className="hidden">Edit Wallet</button>}
-          title="Edit Wallet"
-          description="Update wallet information"
-          open={editOpen}
-          onOpenChange={setEditOpen}
-          isPermitted={true}
-        >
-          <EditWallet
-            wallet={selectedWallet}
-            onSuccess={() => {
-              setEditOpen(false);
-              setSelectedWallet(null);
-            }}
-          />
-        </ShapedModal>
-      )}
     </div>
   );
 };
