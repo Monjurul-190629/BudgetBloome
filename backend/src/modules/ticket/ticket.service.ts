@@ -2,8 +2,11 @@ import Ticket from "../../models/ticket.model";
 import { AppError } from "../../utils/ApiError";
 
 export class TicketService {
-  static async createTicket(userId: string, data: any) {
-    const { subject, message } = data;
+  static async createTicket(userId: string, body: any) {
+    const data = body?.data ? body.data : body;
+
+    const subject = data?.subject?.trim();
+    const message = data?.message?.trim();
 
     if (!subject || !message) {
       throw new AppError("Subject and message are required", 400);
@@ -11,9 +14,10 @@ export class TicketService {
 
     const ticket = await Ticket.create({
       user: userId,
-      type: "question",
+      type: data?.type || "question",
       subject,
       message,
+      status: data?.status || "open",
     });
 
     return ticket;
@@ -29,11 +33,7 @@ export class TicketService {
     };
 
     const [tickets, total] = await Promise.all([
-      Ticket.find(filter)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit),
-
+      Ticket.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
       Ticket.countDocuments(filter),
     ]);
 
