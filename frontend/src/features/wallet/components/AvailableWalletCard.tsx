@@ -51,10 +51,9 @@ const AvailableWalletCard = () => {
 
   return (
     <div className="w-full rounded-2xl bg-[#020202] p-5 md:p-6 shadow-lg">
-      <h2 className="text-lg font-semibold text-white mb-6">
-        Available by Wallet
+      <h2 className="mb-6 text-lg font-semibold text-white">
+        Available Wallet Balance
       </h2>
-
       <div className="space-y-4">
         {wallets.map((wallet: any, index: number) => {
           const style = iconList[index % iconList.length];
