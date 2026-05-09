@@ -1,4 +1,8 @@
+"use client";
+
+import ShapedModal from "@/components/common-ui/modal/ShapedModal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CreateTransaction from "@/features/transaction/components/CreateTransaction";
 import { TrendingUp, ArrowDownCircle, Receipt, PlusCircle } from "lucide-react";
 
 const actions = [
@@ -26,7 +30,7 @@ const actions = [
 
 const QuickActionCard = () => {
   return (
-    <Card className="bg-black text-white w-full max-w-[400px] rounded-2xl shadow-xl border-0 mt-5">
+    <Card className="mt-5 w-full max-w-[400px] rounded-2xl border-0 bg-black text-white shadow-xl">
       <CardHeader>
         <CardTitle className="text-xl font-bold">Quick Actions</CardTitle>
       </CardHeader>
@@ -36,19 +40,28 @@ const QuickActionCard = () => {
           const Icon = action.icon;
 
           return (
-            <button
+            <ShapedModal
               key={index}
-              className={`
-                flex flex-col items-center justify-center gap-2
-                rounded-xl border border-green-500 p-4
-                transition-all duration-200
-                ${action.color}
-                hover:scale-105 hover:shadow-lg
-              `}
+              trigger={
+                <button
+                  className={`
+                    flex flex-col items-center justify-center gap-2
+                    rounded-xl border border-green-500 p-4
+                    transition-all duration-200
+                    ${action.color}
+                    hover:scale-105 hover:shadow-lg
+                  `}
+                >
+                  <Icon className="h-6 w-6" />
+                  <span className="text-sm font-semibold">{action.label}</span>
+                </button>
+              }
+              title={action.label}
+              description={`Create a new ${action.label.toLowerCase()} transaction`}
+              isPermitted={true}
             >
-              <Icon className="h-6 w-6" />
-              <span className="text-sm font-semibold">{action.label}</span>
-            </button>
+              <CreateTransaction />
+            </ShapedModal>
           );
         })}
       </CardContent>
