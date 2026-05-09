@@ -18,7 +18,9 @@ export class TargetedExpenseService {
       matchQuery.created_date = {};
 
       if (from) {
-        matchQuery.created_date.$gte = new Date(from);
+        const fromDate = new Date(from);
+        fromDate.setHours(0, 0, 0, 0);
+        matchQuery.created_date.$gte = fromDate;
       }
 
       if (to) {
@@ -44,7 +46,7 @@ export class TargetedExpenseService {
   static async createTargetedExpense(userId: string, data: any) {
     const { name, amount } = data;
 
-    if (!name || !amount) {
+    if (!name || amount === undefined) {
       throw new AppError("Name and amount are required", 400);
     }
 
@@ -67,9 +69,27 @@ export class TargetedExpenseService {
     from?: string,
     to?: string,
   ) {
-    const targets = await TargetedExpense.find({
+    const targetQuery: any = {
       user: userId,
-    }).sort({
+    };
+
+    if (from || to) {
+      targetQuery.createdAt = {};
+
+      if (from) {
+        const fromDate = new Date(from);
+        fromDate.setHours(0, 0, 0, 0);
+        targetQuery.createdAt.$gte = fromDate;
+      }
+
+      if (to) {
+        const toDate = new Date(to);
+        toDate.setHours(23, 59, 59, 999);
+        targetQuery.createdAt.$lte = toDate;
+      }
+    }
+
+    const targets = await TargetedExpense.find(targetQuery).sort({
       createdAt: -1,
     });
 
