@@ -28,8 +28,8 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema) as any,
     mode: "onTouched",
     defaultValues: {
-      email: "",
-      password: "",
+      email: "monjurulalam4@gmail.com",
+      password: "123456",
     },
   });
 
