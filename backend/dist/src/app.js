@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
@@ -15,8 +16,18 @@ const goal_routes_1 = __importDefault(require("./modules/goal/goal.routes"));
 const targettedExpense_routes_1 = __importDefault(require("./modules/targetedExpense/targettedExpense.routes"));
 const ticket_routes_1 = __importDefault(require("./modules/ticket/ticket.routes"));
 const app = (0, express_1.default)();
+const allowedOrigins = (_a = process.env.CLIENT_URL) === null || _a === void 0 ? void 0 : _a.split(",").map((url) => url.trim());
 app.use((0, cors_1.default)({
-    origin: process.env.CLIENT_URL,
+    origin: (origin, callback) => {
+        console.log("Request Origin:", origin);
+        console.log("Allowed Origins:", allowedOrigins);
+        if (!origin || (allowedOrigins === null || allowedOrigins === void 0 ? void 0 : allowedOrigins.includes(origin))) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error(`CORS blocked for origin: ${origin}`));
+        }
+    },
     credentials: true,
 }));
 app.use(express_1.default.json());
