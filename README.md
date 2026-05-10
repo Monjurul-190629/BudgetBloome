@@ -4,8 +4,8 @@ A modern, full-stack personal finance management platform built to help users tr
 
 # 🚀 Live Demo
 
-🔗 Frontend Live: https://your-frontend-link.vercel.app
-🔗 Backend API: https://your-backend-api-link.vercel.app
+🔗 Frontend Live: https://budget-bloome-j9vg.vercel.app/
+🔗 Backend API: https://budget-bloome.vercel.app/
 
 # ✨ Important Features
 
@@ -48,12 +48,11 @@ A modern, full-stack personal finance management platform built to help users tr
 # Install dependencies
    npm install
 # Create .env
-   NEXT_PUBLIC_API_URL=http://localhost:5000/api
+   NEXT_PUBLIC_API_URL=https://budget-bloome.vercel.app/api
    Run frontend server
    npm run dev
 
 Frontend will run on: http://localhost:3000
-Backend will run on:
 
 # 📈 API Features
 
