@@ -12,9 +12,22 @@ import ticketRoutes from "./modules/ticket/ticket.routes"
 
 const app = express();
 
+const allowedOrigins = process.env.CLIENT_URL?.split(",").map((url) =>
+  url.trim(),
+);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL?.split(","),
+    origin: (origin, callback) => {
+      console.log("Request Origin:", origin);
+      console.log("Allowed Origins:", allowedOrigins);
+
+      if (!origin || allowedOrigins?.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+      }
+    },
     credentials: true,
   }),
 );
