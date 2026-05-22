@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
 import ShapedModal from "@/components/common-ui/modal/ShapedModal";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Printer } from "lucide-react";
 import CreateTransaction from "./CreateTransaction";
 import useFetchData from "@/hooks/useFetchData";
 import { getTransactionHistory } from "../api/transaction.api";
 import SkeletonTransactionHistoryTable from "../skeleton/SkeletonTransactionHistoryTable";
 
 export default function TransactionHistoryTable() {
+  const printRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(1);
 
   const { data: transactionsData, isLoading } = useFetchData(
@@ -19,6 +21,11 @@ export default function TransactionHistoryTable() {
 
   const transactions = transactionsData?.data?.data?.data ?? [];
   const meta = transactionsData?.data?.data?.meta;
+
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+    documentTitle: "BudgetBloom Transaction History",
+  });
 
   if (isLoading) {
     return (
@@ -36,24 +43,58 @@ export default function TransactionHistoryTable() {
           <p className="text-sm text-gray-400">Manage your income & expenses</p>
         </div>
 
-        <ShapedModal
-          trigger={
-            <Button
-              size="icon"
-              className="h-10 w-10 rounded-full bg-green-600 hover:bg-green-700"
-            >
-              <Plus className="h-5 w-5" />
-            </Button>
-          }
-          title="Add New Transaction"
-          description="Create a new transaction"
-          isPermitted={true}
-        >
-          <CreateTransaction />
-        </ShapedModal>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={handlePrint}
+            className="
+            group relative overflow-hidden rounded-full
+            border border-green-500/30
+            bg-gradient-to-r from-green-500 to-emerald-600
+            px-5 py-2.5
+            font-medium text-white
+            shadow-lg shadow-green-500/20
+            transition-all duration-300
+            hover:scale-[1.03]
+          hover:from-green-400
+          hover:to-emerald-500
+           hover:shadow-green-500/40
+           active:scale-95"
+          >
+            <span
+              className="
+              absolute inset-0
+            bg-white/10 opacity-0
+              transition-opacity duration-300
+              group-hover:opacity-100"
+            />
+
+            <Printer className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-6" />
+
+            <span className="relative z-10">Export PDF</span>
+          </Button>
+
+          <ShapedModal
+            trigger={
+              <Button
+                size="icon"
+                className="h-10 w-10 rounded-full bg-green-600 hover:bg-green-700"
+              >
+                <Plus className="h-5 w-5" />
+              </Button>
+            }
+            title="Add New Transaction"
+            description="Create a new transaction"
+            isPermitted={true}
+          >
+            <CreateTransaction />
+          </ShapedModal>
+        </div>
       </div>
 
-      <div className="overflow-x-auto scroll-smooth">
+      <div
+        ref={printRef}
+        className={`overflow-x-auto scroll-smooth print-area`}
+      >
         <table className="w-full min-w-[750px] border-separate border-spacing-y-3">
           <thead>
             <tr className="text-left text-sm text-gray-400">
