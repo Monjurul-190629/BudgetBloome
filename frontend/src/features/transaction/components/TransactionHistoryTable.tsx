@@ -16,7 +16,7 @@ export default function TransactionHistoryTable() {
 
   const { data: transactionsData, isLoading } = useFetchData(
     ["getTransactionHistory", page],
-    () => getTransactionHistory({ page }),
+    () => getTransactionHistory({ page, limit: 10 }),
   );
 
   const transactions = transactionsData?.data?.data?.data ?? [];

@@ -9,16 +9,19 @@ export const createTransaction = ({
 
 export const getTransactionHistory = ({
   page = 1,
+  limit,
   from,
   to,
 }: {
   page?: number;
+  limit?: number;
   from?: string;
   to?: string;
 }) => {
   return instance.get("/transactions", {
     params: {
       page,
+      limit,
       from,
       to,
     },
