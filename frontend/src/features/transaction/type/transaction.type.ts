@@ -16,12 +16,15 @@ export type TRANSACTION_PAYLOAD = {
   created_date: Date | string;
 };
 
+export type TRANSACTION_TYPE = "income" | "expense";
+
 export type TRANSACTION_RESPONSE = {
   _id: string;
   user: string;
   wallet: WALLET_RESPONSE;
   category_name: string;
   description?: string;
+  type: TRANSACTION_TYPE;
   amount: number;
   created_date: string;
   createdAt: string;
@@ -36,4 +39,6 @@ export type TRANSACTION_HISTORY_RESPONSE = {
     totalPages: number;
   };
   data: TRANSACTION_RESPONSE[];
+  total_income?: number;
+  total_expense?: number;
 };

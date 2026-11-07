@@ -1,5 +1,8 @@
 import { instance } from "@/lib/api/apiIntellisence";
-import { TRANSACTION_PAYLOAD } from "../type/transaction.type";
+import {
+  TRANSACTION_HISTORY_RESPONSE,
+  TRANSACTION_PAYLOAD,
+} from "../type/transaction.type";
 
 export const createTransaction = ({
   data,
@@ -18,7 +21,7 @@ export const getTransactionHistory = ({
   from?: string;
   to?: string;
 }) => {
-  return instance.get("/transactions", {
+  return instance.get<{ data: TRANSACTION_HISTORY_RESPONSE }>("/transactions", {
     params: {
       page,
       limit,

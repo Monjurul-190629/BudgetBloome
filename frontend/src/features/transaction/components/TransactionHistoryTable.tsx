@@ -108,7 +108,7 @@ export default function TransactionHistoryTable() {
 
           <tbody>
             {transactions.length > 0 ? (
-              transactions.map((t: any) => (
+              transactions.map((t) => (
                 <tr
                   key={t._id}
                   className="rounded-xl bg-[#111111] transition hover:bg-[#1a1a1a]"
@@ -149,7 +149,7 @@ export default function TransactionHistoryTable() {
         </table>
       </div>
 
-      {meta?.totalPages > 1 && (
+      {meta && meta.totalPages > 1 && (
         <div className="mt-5 flex items-center justify-between gap-4 text-sm text-gray-400">
           <p>
             Page {meta.page} of {meta.totalPages}

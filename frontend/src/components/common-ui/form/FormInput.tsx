@@ -26,6 +26,8 @@ interface props {
   onInputBlur?: React.FocusEventHandler<HTMLInputElement>;
   disabled?: boolean;
   labelTextSize?: string;
+  autoComplete?: React.InputHTMLAttributes<HTMLInputElement>["autoComplete"];
+  rightElement?: React.ReactNode;
 }
 
 const FormInput = ({
@@ -45,6 +47,8 @@ const FormInput = ({
   onInputBlur,
   disabled,
   labelTextSize = "lg:text-sm",
+  autoComplete,
+  rightElement,
 }: props) => {
   return (
     <FormField
@@ -76,27 +80,35 @@ const FormInput = ({
               </div>
             )}
 
-            <FormControl>
-              <Input
-                placeholder={placeholder}
-                onChange={(e) => {
-                  onChange(e); // Update react-hook-form internal state
-                  onValueChange?.(e); // Optional custom change handler
-                }}
-                onBlur={(e) => {
-                  onInputBlur?.(e);
-                  onBlur(); // Update touched state in react-hook-form
-                }}
-                // This is where your defaultValue will appear from `useForm`!
-                value={value ?? ""}
-                name={name}
-                ref={ref}
-                disabled={disabled}
-                type={type}
-                className={`text-xs bg-white ${fieldClassName}`}
-                {...restField} // Includes important props like `onFocus`, etc.
-              />
-            </FormControl>
+            <div className="relative">
+              <FormControl>
+                <Input
+                  placeholder={placeholder}
+                  onChange={(e) => {
+                    onChange(e); // Update react-hook-form internal state
+                    onValueChange?.(e); // Optional custom change handler
+                  }}
+                  onBlur={(e) => {
+                    onInputBlur?.(e);
+                    onBlur(); // Update touched state in react-hook-form
+                  }}
+                  // This is where your defaultValue will appear from `useForm`!
+                  value={value ?? ""}
+                  name={name}
+                  ref={ref}
+                  disabled={disabled}
+                  autoComplete={autoComplete}
+                  type={type}
+                  className={`text-xs bg-white ${rightElement ? "pr-11" : ""} ${fieldClassName}`}
+                  {...restField} // Includes important props like `onFocus`, etc.
+                />
+              </FormControl>
+              {rightElement && (
+                <div className="absolute inset-y-0 right-2 flex items-center">
+                  {rightElement}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Error message below the input if set to default mode */}
