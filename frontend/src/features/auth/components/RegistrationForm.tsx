@@ -30,6 +30,7 @@ import { registrationSchema } from "../schema/auth.schema";
 import { REGISTRATION, REGISTRATION_PAYLOAD } from "../types/auth.types";
 import { userRegistration } from "../api/auth.api";
 import AuthLayout from "./AuthLayout";
+import PasswordStrength from "./PasswordStrength";
 
 const inputStyles =
   "h-11 rounded-xl border-gray-300 bg-gray-50/60 px-3.5 text-sm text-gray-800 placeholder:text-gray-400 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30";
@@ -293,6 +294,8 @@ const RegistrationForm = () => {
             />
           </div>
 
+          <PasswordStrength control={form.control} />
+
           <div className="flex items-start gap-2">
             <input
               type="checkbox"
@@ -326,6 +329,7 @@ const RegistrationForm = () => {
             disabled={mutation.isPending || isUploading}
             className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:from-emerald-400 hover:to-green-500 hover:shadow-emerald-600/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
           >
+            <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
             {mutation.isPending ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />

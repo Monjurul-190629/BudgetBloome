@@ -32,8 +32,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [error, logout]);
 
-  console.log("profileData", profileData?.data?.data);
-
   return <>{children}</>;
 };
 
